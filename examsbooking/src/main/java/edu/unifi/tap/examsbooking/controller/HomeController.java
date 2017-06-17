@@ -1,0 +1,22 @@
+package edu.unifi.tap.examsbooking.controller;
+
+import org.apache.log4j.Logger;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+
+
+@Controller
+public class HomeController {
+
+	final static Logger LOGGER = Logger.getLogger(HomeController.class);
+
+
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public ModelAndView returnHome(){
+		ModelAndView modelAndView = new ModelAndView("index");
+		return modelAndView;
+	}
+	
+}
