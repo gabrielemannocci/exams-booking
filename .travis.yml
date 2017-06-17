@@ -1,4 +1,5 @@
 language: java
+jdk: oraclejdk8
 # skip installation step
 install: true
 script:
