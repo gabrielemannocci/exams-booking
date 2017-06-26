@@ -20,7 +20,80 @@
 			</div>
 		</div>
 	</nav>
+	<div class="container-fluid">
+
+                        
+		  <div class="row">
+  			<!--  <div class="col-md-4 col-md-offset-4"> -->
+			<div class="col-md-4 col-md-offset-4">
+
+
+
+		        
+				<form autocomplete="off" action="#" th:action="@{/registration}"
+					th:object="${student}" method="post" class="form-horizontal"
+					role="form">
 	
+					<!--  <fieldset> -->
+                    <h3>Lista esami</h3>
+					<div class="form-group">
+                            <div class="col-md-12">
+                           <!--   <label th:if="${#fields.hasErrors('exam.examName')}"
+								th:errors="*{exam.examName}" class="validation-message"></label> th:id="*{exam}" -->
+                                <select class="form-control" id="examBooking" th:field="*{examBooking}">
+                                      <option th:each="exam : ${exams}" th:value="${exam.examName}" th:text="${exam.examCode+ '-' + exam.examName + ', ' + #dates.format(exam.examDate, 'dd-MM-yyyy HH:mm')}">Dropdown</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+					<div class="form-group">
+						<div class="col-md-12">
+							<!--<label for="firstName" th:if="${#fields.hasErrors('firstName')}"
+								th:errors="*{firstName}" class="validation-message" th:text="Nome"></label>-->
+								<input type="text" id="firstName" th:field="*{firstName}" placeholder="Nome" th:required="required"
+								class="form-control" />
+						</div>
+					</div>
+
+					<div class="form-group">
+						<div class="col-md-12">
+							<!--<label th:if="${#fields.hasErrors('lastName')}"
+								th:errors="*{lastName}" class="validation-message"></label>-->
+								 <input	type="text" id="lastName" th:field="*{lastName}" placeholder="Cognome" th:required="required"
+								class="form-control" />
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-md-12">
+							<input type="text" id="idNumber" th:field="*{idNumber}" placeholder="Matricola"
+								class="form-control" /> <label
+								th:if="${#fields.hasErrors('idNumber')}" th:errors="*{idNumber}" th:required="required"
+								class="validation-message"></label>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-md-12">
+							<input type="text" id="email" th:field="*{email}" placeholder="Email"
+								class="form-control" /> <label
+								th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
+								class="validation-message"></label>
+						</div>
+					</div>
+
+
+					<div class="form-group">
+						<div class="col-md-12">
+							<button type="submit" id="submit" class="btn btn-primary btn-block">Invio</button>
+						</div>
+					</div>
+
+					<span th:utext="${successMessage}"></span>
+
+					<!--  </fieldset>-->
+				</form>
+			</div>
+		</div>
+	</div>
 
 </body>
 </html>

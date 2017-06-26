@@ -81,7 +81,6 @@
 			<artifactId>selenium-firefox-driver</artifactId>
 			<version>${selenium.version}</version>
 		</dependency>
-		
 	</dependencies>
 
 	<build>
