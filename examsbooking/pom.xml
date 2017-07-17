@@ -51,6 +51,12 @@
 			<version>9.4-1200-jdbc41</version>
 		</dependency>
 
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.17</version>
+		</dependency>
+		
 		<!-- Java 8 date formatting -->
 		<dependency>
 			<groupId>org.thymeleaf.extras</groupId>

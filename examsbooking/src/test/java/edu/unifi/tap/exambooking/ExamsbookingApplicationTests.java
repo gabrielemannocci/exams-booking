@@ -1,4 +1,4 @@
-package edu.unifi.tap.examsbooking;
+package edu.unifi.tap.exambooking;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

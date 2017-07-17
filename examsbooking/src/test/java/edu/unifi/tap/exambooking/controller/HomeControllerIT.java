@@ -1,3 +1,4 @@
+package edu.unifi.tap.exambooking.controller;
 //package edu.unifi.tap.examsbooking.controller;
 //
 //import static org.assertj.core.api.Assertions.assertThat;

@@ -4,7 +4,7 @@
 <head>
 <title>Registration Form</title>
 <link rel="stylesheet" type="text/css"
-	th:href="@{/css/registration.css}" />
+	th:href="@{/css/main.css}" />
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
@@ -38,11 +38,12 @@
                     <h3>Lista esami</h3>
 					<div class="form-group">
                             <div class="col-md-12">
-                           <!--   <label th:if="${#fields.hasErrors('exam.examName')}"
-								th:errors="*{exam.examName}" class="validation-message"></label> th:id="*{exam}" -->
                                 <select class="form-control" id="examBooking" th:field="*{examBooking}">
-                                      <option th:each="exam : ${exams}" th:value="${exam.examName}" th:text="${exam.examCode+ '-' + exam.examName + ', ' + #dates.format(exam.examDate, 'dd-MM-yyyy HH:mm')}">Dropdown</option>
+                                      <option th:each="exam : ${exams}" th:value="${exam.examName}" th:text="${exam.examCode+ '-' + exam.examName + ', '+ exam.ClassRoom + ' - ' + #dates.format(exam.examDate, 'dd-MM-yyyy')}">Dropdown
+                                      </option>
                                 </select>
+                                <!--  <input type="hidden" name="exammm" th:value="${exam.examName}"/> -->
+                                <!--  <input type="hidden" name="quizID"  th:field="*{quizID}" th:value="${quizID}"> -->
                             </div>
                         </div>
                         
@@ -86,8 +87,6 @@
 							<button type="submit" id="submit" class="btn btn-primary btn-block">Invio</button>
 						</div>
 					</div>
-
-					<span th:utext="${successMessage}"></span>
 
 					<!--  </fieldset>-->
 				</form>

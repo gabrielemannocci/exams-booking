@@ -35,24 +35,25 @@ public class Exam {
 	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
 	private Date examDate;
 	
+	@Column(name = "exam_classrooom")//, nullable = false)
+	private String classRoom;
+	
 	public Exam(){
 		super();
 	}
 
-	public Exam(Long examId, String examCode, String examName) {
-		super();
-		this.examId = examId;
-		this.examCode = examCode;
-		this.examName = examName;
-	}
-	
-	public Exam(Long examId, String examCode, String examName, Date examDate) {
+
+
+	public Exam(Long examId, String examCode, String examName, Date examDate, String classRoom) {
 		super();
 		this.examId = examId;
 		this.examCode = examCode;
 		this.examName = examName;
 		this.examDate = examDate;
+		this.classRoom = classRoom;
 	}
+
+
 
 	public Long getExamId() {
 		return examId;
@@ -85,4 +86,19 @@ public class Exam {
 	public void setExamDate(Date examDate) {
 		this.examDate = examDate;
 	}
+
+
+
+	public String getClassRoom() {
+		return classRoom;
+	}
+
+
+
+	public void setClassRoom(String classRoom) {
+		this.classRoom = classRoom;
+	}
+
+
+	
 }
