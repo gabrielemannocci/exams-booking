@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -25,10 +26,8 @@ public class Exam {
 	@Column(name = "exam_code", nullable = false, length = 3)
 	private String examCode;
 	
-	
 	@Column(name = "exam_name", nullable = false)
 	private String examName;
-
 
 	@Column(name = "exam_date", nullable = false)
 	@Temporal(TemporalType.DATE)
@@ -37,6 +36,9 @@ public class Exam {
 	
 	@Column(name = "exam_classrooom")//, nullable = false)
 	private String classRoom;
+	
+	@ManyToOne 
+	private Student student;
 	
 	public Exam(){
 		super();
@@ -87,18 +89,20 @@ public class Exam {
 		this.examDate = examDate;
 	}
 
-
-
 	public String getClassRoom() {
 		return classRoom;
 	}
-
-
 
 	public void setClassRoom(String classRoom) {
 		this.classRoom = classRoom;
 	}
 
+	public Student getStudent() {
+		return student;
+	}
 
+	public void setStudent(Student student) {
+		this.student = student;
+	}
 	
 }

@@ -8,4 +8,5 @@ import edu.unifi.tap.exambooking.model.Exam;
 public interface ExamService {
 		
 	public List<Exam> findAll()  throws ExamsNotFoundException;
+	public Exam findById(Long id)  throws ExamsNotFoundException;
 }

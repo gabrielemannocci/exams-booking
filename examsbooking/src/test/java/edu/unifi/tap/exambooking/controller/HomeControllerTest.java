@@ -9,23 +9,30 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InOrder;
 import org.mockito.Mockito;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.ModelAndViewAssert;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-//import webapp.example.demo.exception.ExamsNotFoundException;
+import static org.mockito.Matchers.isA;
+import static org.mockito.Mockito.when;
 //import webapp.example.demo.model.Exam;
 //import webapp.example.demo.services.interfaces.StudentService;
+import org.springframework.web.servlet.HandlerExceptionResolver;
+import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 
 import edu.unifi.tap.exambooking.exception.ExamsNotFoundException;
 import edu.unifi.tap.exambooking.exception.StudentAlreadyRegisteredForExamException;
@@ -33,6 +40,7 @@ import edu.unifi.tap.exambooking.model.Exam;
 import edu.unifi.tap.exambooking.model.Student;
 import edu.unifi.tap.exambooking.services.interfaces.ExamService;
 import edu.unifi.tap.exambooking.services.interfaces.StudentService;
+import edu.unifi.tap.exambooking.util.ExamsbookingApplicationParams;
 
 /**
  * Unit test for Controller.
@@ -60,15 +68,43 @@ public class HomeControllerTest {
 	@MockBean (name = "studentService")
 	private StudentService studentServiceMock;
 
-	private Student actual;
+	/**
+	 * Beans used in test
+	 */
+	private Student expectedStudent;
+	private Exam expectedExam;
 	
+	
+			
 	//Se definito com spy chiama il metodo reale
 	@Before
 	public void setupController(){
-		mockMvc = MockMvcBuilders.standaloneSetup(new HomeController(examServiceMock,studentServiceMock)).build();
-		actual = new Student(null,"firstName","lastName","aValidEmailTest@email.com","0000000",1L);
+		mockMvc = MockMvcBuilders.standaloneSetup(new HomeController(examServiceMock,studentServiceMock)).setHandlerExceptionResolvers(exceptionResolver()).build();
+		expectedStudent = new Student(1L,"firstName","lastName","aValidEmailTest@email.com","0000000");
+		expectedStudent.setRegisteredExams(new ArrayList<Exam>());
+		expectedExam = new Exam(1L,"DWH", "Datawarehousing",new Date(), "Aula 103");
 	}
 
+    private HandlerExceptionResolver exceptionResolver() {
+        SimpleMappingExceptionResolver exceptionResolver = new SimpleMappingExceptionResolver();
+
+        Properties exceptionMappings = new Properties();
+
+        exceptionMappings.put("edu.unifi.tap.exambooking.exception.ExamsNotFoundException", "error");
+//        exceptionMappings.put("edu.unifi.tap.exambooking.exception.InvalidStudentException", "error");
+//        exceptionMappings.put("edu.unifi.tap.exambooking.exception.StudentAlreadyRegisteredForExamException", "error");
+        exceptionMappings.put("java.lang.Exception", "error");
+        exceptionMappings.put("java.lang.RuntimeException", "error");
+
+        exceptionResolver.setExceptionMappings(exceptionMappings);
+
+        Properties statusCodes = new Properties();
+        statusCodes.put("error", "500");
+        exceptionResolver.setStatusCodes(statusCodes);
+
+        return exceptionResolver;
+    }
+    
 	/**
 	 * Exams list 
 	 */
@@ -118,141 +154,120 @@ public class HomeControllerTest {
 
 	@Test
 	public void testShouldThrowExceptionWhenNoExamsFound() throws Exception {
-		ExamsNotFoundException ex = new ExamsNotFoundException("No exams found!");
+		ExamsNotFoundException ex = new ExamsNotFoundException(ExamsbookingApplicationParams.
+				NO_EXAMS_FOUND_ERROR_MSG);
 		Mockito.when(this.examServiceMock.findAll()).thenThrow(ex);
 
 		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/");
 		mockMvc.perform(requestBuilder)
-		.andExpect(view().name("error"))
+		.andExpect(view().name(ExamsbookingApplicationParams.EXAMSBOOKING_ERROR_VIEW))
 		.andExpect(model().attribute("errormessage",ex.getMessage()));
 	}
 
+//	@Test
+//	public void testCaseStudentRegistration() throws Exception {
+//		assertThat(this.studentServiceMock).isNotNull();
+//		Mockito.when(this.studentServiceMock.registerStudent(expectedStudent, expectedExam)).
+//		thenReturn(ExamsbookingApplicationParams.STUDENT_REGISTRATION_SUCCESS_MSG);
+//		RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/registration")
+//		.param("email", expectedStudent.getEmail())
+//		.param("idNumber", expectedStudent.getIdNumber())
+//		.param("firstName", expectedStudent.getFirstName())
+//		.param("lastName", expectedStudent.getLastName())
+//		.param("examParam", expectedExam.getExamId().toString());
+//
+//		mockMvc.perform(requestBuilder)
+//		.andExpect(view().name(ExamsbookingApplicationParams.EXAMSBOOKING_RESULT_VIEW))
+//		.andExpect(model().attribute("message", ExamsbookingApplicationParams.STUDENT_REGISTRATION_SUCCESS_MSG
+//		.replace("#x#", expectedStudent.getLastName())
+//		.replace("#y#", expectedExam.getExamId().toString())));
+//	}
+	
+	/**
+	 * Refactoring of previous version
+	 * @throws Exception
+	 */
 	@Test
-	public void testBaseCaseUserRegistration() throws Exception {
+	public void testCaseStudentRegistration() throws Exception {
+		assertThat(this.studentServiceMock).isNotNull();
+		assertThat(this.examServiceMock).isNotNull();
+
+		Mockito.when(this.examServiceMock.findById(expectedExam.getExamId())).thenReturn(expectedExam);
+		Mockito.when(this.studentServiceMock.findStudentByIdNumber(expectedStudent.getIdNumber())).thenReturn(expectedStudent);
+		Mockito.when(this.studentServiceMock.registerStudent(expectedStudent, expectedExam)).
+		thenReturn(ExamsbookingApplicationParams.STUDENT_REGISTRATION_SUCCESS_MSG);
+		Mockito.when(this.studentServiceMock.checkForStudentRegistration(expectedStudent.getStudentId(), expectedExam.getExamId())).
+		thenReturn(Boolean.TRUE);
+		
 		RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/registration")
-				.param("email", "aValidEmailTest@email.com")
-				.param("idNumber", "0000000")
-				.param("firstName", "firstName")
-				.param("lastName", "lastName")
-				.param("examId", "1");
+		.param("email", expectedStudent.getEmail())
+		.param("idNumber", expectedStudent.getIdNumber())
+		.param("firstName", expectedStudent.getFirstName())
+		.param("lastName", expectedStudent.getLastName())
+		.param("examParam", expectedExam.getExamId().toString());
+
 		mockMvc.perform(requestBuilder)
-		.andExpect(status().isOk())
-		.andExpect(view().name("results"))
-		.andExpect(model().attributeHasNoErrors());
+		.andExpect(view().name(ExamsbookingApplicationParams.EXAMSBOOKING_RESULT_VIEW))
+		.andExpect(model().attribute("message", ExamsbookingApplicationParams.STUDENT_REGISTRATION_SUCCESS_MSG
+		.replace("#x#", expectedStudent.getLastName())
+		.replace("#y#", expectedExam.getExamId().toString())));
+		
+		verify(this.examServiceMock, times(1)).
+			findById(expectedExam.getExamId());
+		verify(this.studentServiceMock, times(1)).
+			findStudentByIdNumber(expectedStudent.getIdNumber());
+		verify(this.studentServiceMock, times(1)).
+			registerStudent(expectedStudent, expectedExam);
+		verify(this.studentServiceMock, times(1)).
+			checkForStudentRegistration(expectedStudent.getStudentId(),
+				expectedExam.getExamId());
 	}
 	
 	@Test
-	public void whenStudentAlreadyRegisteredForExamShouldThrowException() throws StudentAlreadyRegisteredForExamException {
+	public void testWhenExamNotFoundThrowException() throws Exception {
+		assertThat(this.examServiceMock).isNotNull();
+		ExamsNotFoundException ex = new ExamsNotFoundException();
+		Mockito.when(this.examServiceMock.findById(expectedExam.getExamId())).thenThrow(ex);
+		
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/registration")
+				.param("email", expectedStudent.getEmail())
+				.param("idNumber", expectedStudent.getIdNumber())
+				.param("firstName", expectedStudent.getFirstName())
+				.param("lastName", expectedStudent.getLastName())
+				.param("examParam", expectedExam.getExamId().toString());
+		mockMvc.perform(requestBuilder)
+		.andExpect(view().name("error"))
+		.andExpect(model().attribute("errormessage",ex.getMessage()));
+	}
+	
+	@Test
+	public void whenStudentAlreadyRegisteredForExamShouldRedirectToErrorView() throws Exception {
 		
 		assertThat(this.studentServiceMock).isNotNull();
-		Mockito.when(this.studentServiceMock.findByIdNumber(actual.getIdNumber(), actual.getExamId())).thenThrow(new StudentAlreadyRegisteredForExamException());
+		Mockito.when(this.examServiceMock.findById(expectedExam.getExamId())).thenReturn(expectedExam);
+		Mockito.when(this.studentServiceMock.findStudentByIdNumber(expectedStudent.getIdNumber())).thenReturn(expectedStudent);
+		Mockito.when(this.studentServiceMock.checkForStudentRegistration(expectedStudent.getStudentId(), expectedExam.getExamId())).thenReturn(Boolean.FALSE);
 		
 		RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/registration")
-				.param("email", "aValidEmailTest@email.com")
-				.param("idNumber", "0000000")
-				.param("firstName", "firstName")
-				.param("lastName", "lastName")
-				.param("examId", "1");
+				.param("email", expectedStudent.getEmail())
+				.param("idNumber", expectedStudent.getIdNumber())
+				.param("firstName", expectedStudent.getFirstName())
+				.param("lastName", expectedStudent.getLastName())
+				.param("examParam", expectedExam.getExamId().toString());
+	
+		mockMvc.perform(requestBuilder)
+		.andExpect(view().name("error"))
+		.andExpect(model().attribute("errormessage",
+				ExamsbookingApplicationParams.STUDENT_ALREADY_REGISTERED_FOR_EXAM_ERROR_MSG.replace("#x#", expectedStudent.getLastName())
+				.replace("#y#", expectedExam.getExamId().toString())));
 		
-//		mockMvc.perform(requestBuilder)
-//		.andExpect(status().isOk())
-//		.andExpect(view().name("error"))
-//		.andExpect(model().attributeHasNoErrors());
+		InOrder inOrder = Mockito.inOrder(examServiceMock,studentServiceMock);
+		inOrder.verify(examServiceMock).findById(expectedExam.getExamId());
+		inOrder.verify(studentServiceMock).findStudentByIdNumber(expectedStudent.getIdNumber());
+		inOrder.verify(studentServiceMock).checkForStudentRegistration(expectedStudent.getStudentId(), expectedExam.getExamId());
+		
 	}
+
 	
-//	@Test
-//	public void testBaseCaseUserRegistration() throws Exception {
-//		
-//		Student student = new Student();
-//		student.setStudentId(0L);
-//		student.setFirstName("firstName");
-//		student.setLastName("lastName");
-//		student.setEmail("aValidEmailTest@email.com");
-//		student.setExamId(1L);
-//		student.setIdNumber("0000000");
-//		
-//		System.out.println(student.toString());
-//		System.out.println(student.getFirstName());
-//		RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/registration")
-//				.param("email", "aValidEmailTest@email.com")
-//				.param("idNumber", "0000000")
-//				.param("firstName", "firstName")
-//				.param("lastName", "lastName")
-//				.param("examId", "1");
-//		mockMvc.perform(requestBuilder)
-//		.andExpect(status().isOk())
-//		.andExpect(forwardedUrl("results"))
-//		.andExpect(model().attributeHasNoErrors())
-//		.andExpect(model().attributeExists("studentId", student.getFirstName()));
-//	}
-
-	//test findById ==> view error
-	//test for each parameters  ==> view error
-	
-//	.andExpect(status().isOk())
-//    .andExpect(view().name(&quot;todo/add&quot;))
-//    .andExpect(forwardedUrl(&quot;/WEB-INF/jsp/todo/add.jsp&quot;))
-//    .andExpect(model().attributeHasFieldErrors(&quot;todo&quot;, &quot;title&quot;))
-    
-    
-	//	Arrays.asList(first, second)
-	//    /**
-	//     * Check for right indexview 
-	//     * @throws Exception
-	//     */
-	//	@Test
-	//	public void testStatus200() throws Exception{
-	//		assertThat(this.studentServiceMock).isNotNull();
-	//        
-	//		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/");
-	//		mockMvc.perform(requestBuilder)
-	//		.andExpect(view().name("index"));
-	//	}
-
-
-
-
-
-
-	//	@Test
-	//	public void testHTTPGetRequest() throws Exception{
-	//		Mockito.when(studentServiceMock.findAllExams()).thenReturn(exams);
-	//
-	//		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/");
-	//		mockMvc.perform(requestBuilder)
-	//				.andDo(print())
-	//				.andExpect(status().isOk())
-	//				.andReturn();
-	//		
-	//		verify(studentServiceMock, times(1)).findAllExams();
-	//		verifyNoMoreInteractions(studentServiceMock);
-	//	}
-	//	
-	//	@Test
-	//	public void testBindingResultHasError() throws Exception{
-	//	}
-	//
-	//	@Test
-	//	public void testCreateNewStudent() throws Exception{
-	//	}
-	//	
-	//	@Test
-	//	public void testCreateNewStudentInvalidForm() throws Exception{
-	//		RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/")
-	//				.param("email", "invalidemailtest.com")
-	//                .param("idNumber", "0000000")
-	//                .param("firstName", "firstName")
-	//                .param("lastName", "lastName");
-	//        this.mockMvc.perform(requestBuilder)
-	//                .andExpect(status().isOk())
-	//                .andExpect(view().name("results"))
-	//                .andExpect(model().attributeHasFieldErrors("student","email"));
-	//	}
-	//	
-	//	@Test 
-	//	public void testStudentAlreadyExits() throws Exception{
-	//        
-	//	}
-
 
 }

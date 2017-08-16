@@ -10,6 +10,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 </head>
 <body>
 
@@ -34,19 +35,17 @@
 					th:object="${student}" method="post" class="form-horizontal"
 					role="form">
 	
-					<!--  <fieldset> -->
-                    <h3>Lista esami</h3>
-					<div class="form-group">
+                   <div class="form-group">
+ 					
                             <div class="col-md-12">
-                                <select class="form-control" id="examBooking" th:field="*{examBooking}">
-                                      <option th:each="exam : ${exams}" th:value="${exam.examName}" th:text="${exam.examCode+ '-' + exam.examName + ', '+ exam.ClassRoom + ' - ' + #dates.format(exam.examDate, 'dd-MM-yyyy')}">Dropdown
+                            <h3>Lista esami</h3>
+                                <select class="form-control" id="examId" th:field="*{registeredExams}" onchange="selectedExam()">
+                                      <option th:each="exam : ${exams}" th:value="${exam.examId}" th:text="${exam.examCode+ '-' + exam.examName + ', '+ exam.ClassRoom + ' - ' + #dates.format(exam.examDate, 'dd-MM-yyyy')}">Dropdown
                                       </option>
                                 </select>
-                                <!--  <input type="hidden" name="exammm" th:value="${exam.examName}"/> -->
-                                <!--  <input type="hidden" name="quizID"  th:field="*{quizID}" th:value="${quizID}"> -->
+                                  <input type="hidden" id="hiddenExamId" name="examParam"/>
                             </div>
-                        </div>
-                        
+                       </div>  
 					<div class="form-group">
 						<div class="col-md-12">
 							<!--<label for="firstName" th:if="${#fields.hasErrors('firstName')}"
@@ -87,12 +86,16 @@
 							<button type="submit" id="submit" class="btn btn-primary btn-block">Invio</button>
 						</div>
 					</div>
-
 					<!--  </fieldset>-->
 				</form>
 			</div>
 		</div>
 	</div>
-
+<script>
+    function selectedExam() {
+    	var x = document.getElementById("examId").value;
+    	document.getElementById("hiddenExamId").value = x;
+    }
+     </script>
 </body>
 </html>

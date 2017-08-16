@@ -1,11 +1,19 @@
 package edu.unifi.tap.exambooking.model;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 
 @Entity
 @Table(name = "student")
@@ -27,24 +35,24 @@ public class Student {
 	
 	@Column(name = "identification_number", nullable = false)
 	private String idNumber;
-	
-	@Column(name = "exam_id")
-	private Long examId;
 
+	@ManyToMany 
+    @JoinTable(name="student_registration", 
+          joinColumns=@JoinColumn(name="student_id"),
+          inverseJoinColumns=@JoinColumn(name="exam_id"))
+    private List<Exam> registeredExams;
 	
 	public Student() {
 		super();
 	}
 
-
-	public Student(Long studentId, String firstName, String lastName, String email, String idNumber, Long examid) {
+	public Student(Long studentId, String firstName, String lastName, String email, String idNumber) {
 		super();
 		this.studentId = studentId;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.idNumber = idNumber;
-		this.examId = examid;
 	}
 
 
@@ -90,26 +98,19 @@ public class Student {
 		this.idNumber = idNumber;
 	}
 
-
-	public Long getExamId() {
-		return examId;
+	public List<Exam> getRegisteredExams() {
+		return registeredExams;
 	}
 
-
-	public void setExamId(Long examId) {
-		this.examId = examId;
+	public void setRegisteredExams(List<Exam> registeredExams) {
+		this.registeredExams = registeredExams;
 	}
-
 
 	@Override
 	public String toString() {
 		return "Student [studentId=" + studentId + ", firstName=" + firstName + ", lastName=" + lastName + ", email="
-				+ email + ", idNumber=" + idNumber + ", examId=" + examId + "]";
+				+ email + ", idNumber=" + idNumber + ", registeredExams=" + registeredExams + "]";
 	}
-
-
-
-
 
 
 
