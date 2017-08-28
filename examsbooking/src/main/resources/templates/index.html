@@ -39,11 +39,11 @@
  					
                             <div class="col-md-12">
                             <h3>Lista esami</h3>
-                                <select class="form-control" id="examId" th:field="*{registeredExams}" onchange="selectedExam()">
+                                <select class="form-control" id="examId" th:field="*{exam}" onchange="selectedExam()">
                                       <option th:each="exam : ${exams}" th:value="${exam.examId}" th:text="${exam.examCode+ '-' + exam.examName + ', '+ exam.ClassRoom + ' - ' + #dates.format(exam.examDate, 'dd-MM-yyyy')}">Dropdown
                                       </option>
                                 </select>
-                                  <input type="hidden" id="hiddenExamId" name="examParam"/>
+                                  <input type="hidden" id="hiddenExamId" name="examParam" value="0"/>
                             </div>
                        </div>  
 					<div class="form-group">

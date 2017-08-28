@@ -1,7 +1,5 @@
 package edu.unifi.tap.exambooking.services;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,17 +19,17 @@ public class ExamServiceImpl implements ExamService{
 
 	@Override
 	public Exam findById(Long id) throws ExamsNotFoundException {
-		// TODO Auto-generated method stub
-		return null;
+		LOGGER.debug("findById method called");
+		return examRepository.findOne(id);
 	}
-
-
-
 
 	@Override
 	public List<Exam> findAll() throws ExamsNotFoundException {
-		// TODO Auto-generated method stub
-		return null;
+		LOGGER.debug("findAll method called");
+		List<Exam> exams =  examRepository.findAll();
+		if(exams.isEmpty())
+			throw new ExamsNotFoundException();
+		return exams;
 	}
 
 }

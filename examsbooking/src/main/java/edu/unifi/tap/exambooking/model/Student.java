@@ -1,19 +1,13 @@
 package edu.unifi.tap.exambooking.model;
 
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "student")
@@ -36,11 +30,9 @@ public class Student {
 	@Column(name = "identification_number", nullable = false)
 	private String idNumber;
 
-	@ManyToMany 
-    @JoinTable(name="student_registration", 
-          joinColumns=@JoinColumn(name="student_id"),
-          inverseJoinColumns=@JoinColumn(name="exam_id"))
-    private List<Exam> registeredExams;
+    @ManyToOne(optional=false) 
+    @JoinColumn(name="exam_id", nullable=false, updatable=false)
+    private Exam exam;
 	
 	public Student() {
 		super();
@@ -98,19 +90,20 @@ public class Student {
 		this.idNumber = idNumber;
 	}
 
-	public List<Exam> getRegisteredExams() {
-		return registeredExams;
+	public Exam getExam() {
+		return exam;
 	}
 
-	public void setRegisteredExams(List<Exam> registeredExams) {
-		this.registeredExams = registeredExams;
+	public void setExam(Exam exam) {
+		this.exam = exam;
 	}
 
 	@Override
 	public String toString() {
 		return "Student [studentId=" + studentId + ", firstName=" + firstName + ", lastName=" + lastName + ", email="
-				+ email + ", idNumber=" + idNumber + ", registeredExams=" + registeredExams + "]";
+				+ email + ", idNumber=" + idNumber + ", exam=" + exam + "]";
 	}
+
 
 
 

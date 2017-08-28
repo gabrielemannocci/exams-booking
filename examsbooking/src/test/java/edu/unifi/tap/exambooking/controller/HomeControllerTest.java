@@ -81,7 +81,6 @@ public class HomeControllerTest {
 	public void setupController(){
 		mockMvc = MockMvcBuilders.standaloneSetup(new HomeController(examServiceMock,studentServiceMock)).setHandlerExceptionResolvers(exceptionResolver()).build();
 		expectedStudent = new Student(1L,"firstName","lastName","aValidEmailTest@email.com","0000000");
-		expectedStudent.setRegisteredExams(new ArrayList<Exam>());
 		expectedExam = new Exam(1L,"DWH", "Datawarehousing",new Date(), "Aula 103");
 	}
 
@@ -193,11 +192,10 @@ public class HomeControllerTest {
 		assertThat(this.examServiceMock).isNotNull();
 
 		Mockito.when(this.examServiceMock.findById(expectedExam.getExamId())).thenReturn(expectedExam);
-		Mockito.when(this.studentServiceMock.findStudentByIdNumber(expectedStudent.getIdNumber())).thenReturn(expectedStudent);
 		Mockito.when(this.studentServiceMock.registerStudent(expectedStudent, expectedExam)).
 		thenReturn(ExamsbookingApplicationParams.STUDENT_REGISTRATION_SUCCESS_MSG);
-		Mockito.when(this.studentServiceMock.checkForStudentRegistration(expectedStudent.getStudentId(), expectedExam.getExamId())).
-		thenReturn(Boolean.TRUE);
+		Mockito.when(this.studentServiceMock.findStudentByIdNumberAndExam(expectedStudent.getIdNumber(), expectedExam.getExamId())).
+		thenReturn(expectedStudent);
 		
 		RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/registration")
 		.param("email", expectedStudent.getEmail())
@@ -215,11 +213,9 @@ public class HomeControllerTest {
 		verify(this.examServiceMock, times(1)).
 			findById(expectedExam.getExamId());
 		verify(this.studentServiceMock, times(1)).
-			findStudentByIdNumber(expectedStudent.getIdNumber());
-		verify(this.studentServiceMock, times(1)).
 			registerStudent(expectedStudent, expectedExam);
 		verify(this.studentServiceMock, times(1)).
-			checkForStudentRegistration(expectedStudent.getStudentId(),
+		findStudentByIdNumberAndExam(expectedStudent.getIdNumber(),
 				expectedExam.getExamId());
 	}
 	
@@ -245,8 +241,7 @@ public class HomeControllerTest {
 		
 		assertThat(this.studentServiceMock).isNotNull();
 		Mockito.when(this.examServiceMock.findById(expectedExam.getExamId())).thenReturn(expectedExam);
-		Mockito.when(this.studentServiceMock.findStudentByIdNumber(expectedStudent.getIdNumber())).thenReturn(expectedStudent);
-		Mockito.when(this.studentServiceMock.checkForStudentRegistration(expectedStudent.getStudentId(), expectedExam.getExamId())).thenReturn(Boolean.FALSE);
+		Mockito.when(this.studentServiceMock.findStudentByIdNumberAndExam(expectedStudent.getIdNumber(), expectedExam.getExamId())).thenReturn(expectedStudent);
 		
 		RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/registration")
 				.param("email", expectedStudent.getEmail())
@@ -263,8 +258,7 @@ public class HomeControllerTest {
 		
 		InOrder inOrder = Mockito.inOrder(examServiceMock,studentServiceMock);
 		inOrder.verify(examServiceMock).findById(expectedExam.getExamId());
-		inOrder.verify(studentServiceMock).findStudentByIdNumber(expectedStudent.getIdNumber());
-		inOrder.verify(studentServiceMock).checkForStudentRegistration(expectedStudent.getStudentId(), expectedExam.getExamId());
+		inOrder.verify(studentServiceMock).findStudentByIdNumberAndExam(expectedStudent.getIdNumber(), expectedExam.getExamId());
 		
 	}
 

@@ -8,5 +8,6 @@ import edu.unifi.tap.exambooking.model.Exam;
 
 @Repository("examRepository")
 public interface ExamRepository extends CrudRepository<Exam, Long> {
-
+ 
+	public List<Exam> findAll();
 }

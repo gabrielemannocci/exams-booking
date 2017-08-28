@@ -6,7 +6,6 @@ import edu.unifi.tap.exambooking.model.Student;
 
 public interface StudentService {
 
-	public String registerStudent(Student student, Exam exam) throws InvalidStudentException;
-	public Boolean checkForStudentRegistration(Long studentId, Long examId);
-	public Student findStudentByIdNumber(String idNumber);
+	public String  registerStudent(Student student, Exam exam) throws InvalidStudentException;
+	public Student findStudentByIdNumberAndExam(String idNumber, Long examId);
 }
