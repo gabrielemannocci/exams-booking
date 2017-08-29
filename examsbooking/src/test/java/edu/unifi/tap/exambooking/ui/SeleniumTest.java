@@ -48,6 +48,7 @@ public class SeleniumTest {
 		System.out.println(webDriver.getTitle());
 		System.out.println("------------------------");
 		System.out.println(webDriver.getPageSource());
+		System.out.println();
 		
 	}
 	
