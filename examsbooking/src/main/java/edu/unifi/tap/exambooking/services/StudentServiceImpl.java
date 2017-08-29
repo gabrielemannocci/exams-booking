@@ -16,23 +16,19 @@ public class StudentServiceImpl implements StudentService{
 	
 	@Autowired
 	private StudentRepository  studentRepository;
-	
-	@Autowired
-	private ExamRepository examRepository;
-	
-	@Override
-	public String registerStudent(Student student, Exam exam) {
-		 LOGGER.debug("registerStudent method called");
-		 Exam examTemp = examRepository.findOne(exam.getExamId());
-		 student.setExam(examTemp);
-		 studentRepository.save(student);
-		return "OK";
-	}
+
 
 	@Override
 	public Student findStudentByIdNumberAndExam(String idNumber, Long examId) {
-		LOGGER.debug("findStudentByIdNumberAndExam");
+		LOGGER.debug("findStudentByIdNumberAndExam called");
 		return studentRepository.findStudentByIdNumberAndExam(idNumber,examId);
+	}
+
+
+	@Override
+	public Student registerStudent(Student student,Exam exam) { 
+		 student.setExam(exam);
+		 return studentRepository.save(student);
 	}
 
 

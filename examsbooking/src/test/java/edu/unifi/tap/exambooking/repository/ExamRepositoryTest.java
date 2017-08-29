@@ -29,9 +29,8 @@ public class ExamRepositoryTest {
 	@Autowired 
 	private ExamRepository examRepository;
 	
-	private Exam exam1;
-	private Exam exam2;
-	private Exam exam3;
+	private Exam expected;
+
 	private List<Exam> exams;
 	
 	@Before
@@ -39,58 +38,42 @@ public class ExamRepositoryTest {
 
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	            
-		exam1 = new Exam();
-		exam1.setExamId(0L);
-		exam1.setExamCode("CSZ");
-		exam1.setExamName("Codici e sicurezza");
- 		exam1.setExamDate(formatter.parse("2017-07-09 09:00:00"));
-		
-		exam2 = new Exam();
-		exam2.setExamId(1L);
-		exam2.setExamCode("DWH");
-		exam2.setExamName("Datawarehousing");
- 		exam2.setExamDate(formatter.parse("2017-07-10 09:00:00"));
-		
-		exam3 = new Exam();
-		exam3.setExamId(2L);
-		exam3.setExamCode("TAP");
-		exam3.setExamName("Tecniche avanzate di programmazione");
- 		exam3.setExamDate(formatter.parse("2017-07-11 09:00:00"));
+		expected = new Exam();
+		expected.setExamId(0L);
+		expected.setExamCode("CSZ");
+		expected.setExamName("Codici e sicurezza");
+		expected.setExamDate(formatter.parse("2017-07-09 09:00:00"));
+		expected.setExamClassRoom("Aual 101");
 
- 		exams = new ArrayList<Exam>();
- 		exams.add(exam1);
- 		exams.add(exam2);
- 		exams.add(exam3);
- 		
- 		examRepository.deleteAll();
 	}
 	
 	@Test
 	public void whenFindById_thenReturnExam() {
-//		Exam actualExam = new Exam(null,"ABC","Test Exam",new Date(),null);
-//	    // given
-//	    entityManager.persist(actualExam);
-//	    entityManager.flush();
-//	 
-	    // when
-	    Exam found = examRepository.findOne(exam1.getExamId());
+		Exam actualExam = new Exam(null,"CSZ","Codici e sicurezza",new Date(),null);
+
+		entityManager.persist(actualExam);
+	    entityManager.flush();
 	 
-	    // then
-	    assertThat(found.getExamCode())
-	      .isEqualTo(exam1.getExamCode());
+	    Exam found = examRepository.findOne(actualExam.getExamId());
+	 
+	    assertThat(found.getExamCode()).isEqualTo(actualExam.getExamCode());
+
 	}
 	
 	@Test
 	public void findAllExams(){
-
-//
-//	    entityManager.persist(exam1);
-//	    entityManager.persist(exam2);
-//	    entityManager.persist(exam3);
-//	    entityManager.flush();
+		
+		Exam actualExam1 = new Exam(null,"CSZ","Codici e sicurezza",new Date(),null);
+		Exam actualExam2 = new Exam(null,"DWH","Datawarehousing",new Date(),null);
+		Exam actualExam3 = new Exam(null,"TAP","TAP",new Date(),null);
+		
+	    entityManager.persist(actualExam1);
+	    entityManager.persist(actualExam2);
+	    entityManager.persist(actualExam3);
+	    entityManager.flush();
 	    
 		List<Exam> results = examRepository.findAll();
- 		assertThat(results).hasSize(3).contains(exam1, exam2, exam3);
+ 		assertThat(results).contains(actualExam1, actualExam2, actualExam3);
 		
 	}
 	

@@ -8,7 +8,6 @@ import edu.unifi.tap.exambooking.model.Student;
 @Repository("studentRepository")
 public interface StudentRepository extends CrudRepository<Student, Long> {
 	
-	Student findStudentByIdNumber(String idNumber);
 	@Query("select s from Student s where s.idNumber = :idNumber and s.exam.id = :examId")
 	Student findStudentByIdNumberAndExam(@Param("idNumber") String idNumber, @Param("examId") Long examId);
 }

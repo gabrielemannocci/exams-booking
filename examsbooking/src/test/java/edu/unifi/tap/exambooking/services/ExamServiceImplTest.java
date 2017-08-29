@@ -5,8 +5,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.when;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -14,7 +14,6 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -25,13 +24,12 @@ import edu.unifi.tap.exambooking.exception.ExamsNotFoundException;
 import edu.unifi.tap.exambooking.model.Exam;
 import edu.unifi.tap.exambooking.repository.ExamRepository;
 import edu.unifi.tap.exambooking.services.interfaces.ExamService;
-import edu.unifi.tap.exambooking.util.ExamsbookingApplicationParams;
 
 @RunWith(SpringRunner.class)
 public class ExamServiceImplTest {
 
 	@TestConfiguration
-    static class EmployeeServiceImplTestContextConfiguration {
+    static class ExamServiceImplTestContextConfiguration {
   
         @Bean
         public ExamService examService() {
@@ -78,11 +76,20 @@ public class ExamServiceImplTest {
     
     @Test
 	public void testFindAll() throws Exception{
-    	
+    	examList.add(expected);
     	when(examRepository.findAll()).thenReturn(examList);
     	
         assertNotNull(examList);
-        assertTrue(examList.size() >= 0);
+        assertTrue(examList.size() >0);
     }
     
+    @Test
+	public void testFindAllEmptyList() throws Exception{
+    	when(examRepository.findAll()).thenReturn(examList);
+    	
+        assertNotNull(examList);
+        assertTrue(examList.size()==0);
+
+//        assertThatThrownBy(new ExamsNotFoundException());
+    }
 }

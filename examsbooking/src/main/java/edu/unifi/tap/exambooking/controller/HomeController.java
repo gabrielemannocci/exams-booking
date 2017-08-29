@@ -41,7 +41,7 @@ public class HomeController {
 		List<Exam> exams = null;
 		modelAndView.setViewName("index");
 		try {
-			exams = examService.findAll();
+			exams = examService.findAll(); 
 		} catch (ExamsNotFoundException e) {
 			System.out.println(e.getMessage());
 			modelAndView.addObject("errormessage", e.getMessage());
@@ -54,24 +54,29 @@ public class HomeController {
 
 	@RequestMapping(value = "/registration", method = RequestMethod.POST)
 	public ModelAndView registerUser(@ModelAttribute("student")  Student student,  @RequestParam("examParam") Long examId) throws InvalidStudentException, ExamsNotFoundException{
-		LOGGER.debug("+++ registerUser +++");
-		
+//		LOGGER.debug("+++ registerUser +++");
+		System.out.println("+++ registerUser +++");
+		System.out.println("STUDENT: "+student.toString());
 		Exam examFound = examService.findById(examId);
 		
 		ModelAndView modelAndView = new ModelAndView();
 		Student studentFound = studentService.findStudentByIdNumberAndExam(student.getIdNumber(),examId);
 		if(studentFound == null){
-			studentService.registerStudent(student,examFound);
-			modelAndView.setViewName(ExamsbookingApplicationParams.EXAMSBOOKING_RESULT_VIEW);
-			modelAndView.addObject("message", ExamsbookingApplicationParams.STUDENT_REGISTRATION_SUCCESS_MSG.
-			replace("#x#", student.getLastName()).replace("#y#", examFound.getExamName()));
+//			student.setExam(examFound);  
+			Student saved = studentService.registerStudent(student,examFound);
+			if(saved == null){
+				modelAndView.setViewName(ExamsbookingApplicationParams.EXAMSBOOKING_ERROR_VIEW);
+				modelAndView.addObject("errormessage",ExamsbookingApplicationParams.INVALID_STUDENT_ERROR_MSG);
+			}
+			else{
+				modelAndView.setViewName(ExamsbookingApplicationParams.EXAMSBOOKING_RESULT_VIEW);
+				modelAndView.addObject("message", ExamsbookingApplicationParams.STUDENT_REGISTRATION_SUCCESS_MSG.
+				replace("#x#", saved.getLastName()).replace("#y#", examFound.getExamName()));
+			}
+			
 		}
 		else{
 			
-			String msg_error_str = ExamsbookingApplicationParams.STUDENT_ALREADY_REGISTERED_FOR_EXAM_ERROR_MSG
-					.replace("#x#", studentFound.getLastName())
-					.replace("#y#", examFound.getExamName());
-			System.out.println(msg_error_str);
 			modelAndView.setViewName(ExamsbookingApplicationParams.EXAMSBOOKING_ERROR_VIEW);
 			modelAndView.addObject("errormessage",ExamsbookingApplicationParams.STUDENT_ALREADY_REGISTERED_FOR_EXAM_ERROR_MSG
 					.replace("#x#", studentFound.getLastName())

@@ -38,7 +38,7 @@ public class Exam {
 	private Date examDate;
 	
 	@Column(name = "exam_classrooom")
-	private String classRoom;
+	private String examClassRoom;
 
 	
 	public Exam(){
@@ -53,7 +53,7 @@ public class Exam {
 		this.examCode = examCode;
 		this.examName = examName;
 		this.examDate = examDate;
-		this.classRoom = classRoom;
+		this.examClassRoom = classRoom;
 	}
 
 
@@ -90,12 +90,68 @@ public class Exam {
 		this.examDate = examDate;
 	}
 
-	public String getClassRoom() {
-		return classRoom;
+
+	public String getExamClassRoom() {
+		return examClassRoom;
 	}
 
-	public void setClassRoom(String classRoom) {
-		this.classRoom = classRoom;
+
+
+	public void setExamClassRoom(String examClassRoom) {
+		this.examClassRoom = examClassRoom;
+	}
+
+
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((examClassRoom == null) ? 0 : examClassRoom.hashCode());
+		result = prime * result + ((examCode == null) ? 0 : examCode.hashCode());
+		result = prime * result + ((examDate == null) ? 0 : examDate.hashCode());
+		result = prime * result + ((examId == null) ? 0 : examId.hashCode());
+		result = prime * result + ((examName == null) ? 0 : examName.hashCode());
+		return result;
+	}
+
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof Exam))
+			return false;
+		Exam other = (Exam) obj;
+		if (examClassRoom == null) {
+			if (other.examClassRoom != null)
+				return false;
+		} else if (!examClassRoom.equals(other.examClassRoom))
+			return false;
+		if (examCode == null) {
+			if (other.examCode != null)
+				return false;
+		} else if (!examCode.equals(other.examCode))
+			return false;
+		if (examDate == null) {
+			if (other.examDate != null)
+				return false;
+		} else if (!examDate.equals(other.examDate))
+			return false;
+		if (examId == null) {
+			if (other.examId != null)
+				return false;
+		} else if (!examId.equals(other.examId))
+			return false;
+		if (examName == null) {
+			if (other.examName != null)
+				return false;
+		} else if (!examName.equals(other.examName))
+			return false;
+		return true;
 	}
 
 }
