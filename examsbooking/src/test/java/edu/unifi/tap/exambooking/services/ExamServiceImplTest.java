@@ -62,33 +62,25 @@ public class ExamServiceImplTest {
         assertThat(found.getExamCode()).isEqualTo(expected.getExamCode());
     }
     
-//    @Test
-//	public void testThrowExceptionWhenExamNotFound() throws Exception{	
-//    	when(examRepository.findOne(expected.getExamId())).
-//    	thenThrow(new ExamsNotFoundException(ExamsbookingApplicationParams.NO_EXAMS_FOUND_ERROR_MSG));
-//
-//        assertThatThrownBy(
-//                () -> examRepository.findOne(expected.getExamId()))
-//                .isInstanceOf(ExamsNotFoundException.class)
-//                .hasMessage(ExamsbookingApplicationParams.NO_EXAMS_FOUND_ERROR_MSG);
-//
-//    }
     
-    @Test
+    @Test(expected = ExamsNotFoundException.class)
 	public void testFindAll() throws Exception{
-    	examList.add(expected);
+    	
     	when(examRepository.findAll()).thenReturn(examList);
     	
-        assertNotNull(examList);
-        assertTrue(examList.size() >0);
+    	examService.findAll();
+//        assertNotNull(examsFound);
+//        assertTrue(examsFound.size() >0);
     }
     
     @Test
 	public void testFindAllEmptyList() throws Exception{
+    	examList.add(expected);
     	when(examRepository.findAll()).thenReturn(examList);
     	
-        assertNotNull(examList);
-        assertTrue(examList.size()==0);
+    	List<Exam> examsFound = examService.findAll();
+        assertNotNull(examsFound);
+        assertTrue(examsFound.size() >0);
 
 //        assertThatThrownBy(new ExamsNotFoundException());
     }

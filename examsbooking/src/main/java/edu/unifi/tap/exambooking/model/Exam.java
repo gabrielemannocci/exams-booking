@@ -1,20 +1,16 @@
 package edu.unifi.tap.exambooking.model;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
@@ -34,7 +30,7 @@ public class Exam {
 
 	@Column(name = "exam_date", nullable = false)
 	@Temporal(TemporalType.DATE)
-	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
+	@DateTimeFormat(pattern = "dd-MM-yyyy HH:mm")
 	private Date examDate;
 	
 	@Column(name = "exam_classrooom")
@@ -103,55 +99,34 @@ public class Exam {
 
 
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((examClassRoom == null) ? 0 : examClassRoom.hashCode());
-		result = prime * result + ((examCode == null) ? 0 : examCode.hashCode());
-		result = prime * result + ((examDate == null) ? 0 : examDate.hashCode());
-		result = prime * result + ((examId == null) ? 0 : examId.hashCode());
-		result = prime * result + ((examName == null) ? 0 : examName.hashCode());
-		return result;
+
+	 @Override
+	    public int hashCode() {
+		return Objects.hash(examId, examCode, examName, examDate, examClassRoom);
 	}
 
 
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (!(obj instanceof Exam))
-			return false;
-		Exam other = (Exam) obj;
-		if (examClassRoom == null) {
-			if (other.examClassRoom != null)
-				return false;
-		} else if (!examClassRoom.equals(other.examClassRoom))
-			return false;
-		if (examCode == null) {
-			if (other.examCode != null)
-				return false;
-		} else if (!examCode.equals(other.examCode))
-			return false;
-		if (examDate == null) {
-			if (other.examDate != null)
-				return false;
-		} else if (!examDate.equals(other.examDate))
-			return false;
-		if (examId == null) {
-			if (other.examId != null)
-				return false;
-		} else if (!examId.equals(other.examId))
-			return false;
-		if (examName == null) {
-			if (other.examName != null)
-				return false;
-		} else if (!examName.equals(other.examName))
-			return false;
+	 @Override
+	    public boolean equals(Object obj) {
+		if (obj == null) {
+		    return false;
+		}
+		final Exam exam = (Exam) obj;
+		if (!Objects.equals(this.examId, exam.examId))
+		    return false;
+		if (!Objects.equals(this.examCode, exam.examCode))
+		    return false;
+		if (!Objects.equals(this.examDate, exam.examDate))
+		    return false;
+		if (!Objects.equals(this.examName, exam.examName))
+		    return false;
+		if (!Objects.equals(this.examClassRoom, exam.examClassRoom))
+		    return false;
 		return true;
-	}
+	    }
+
+
+
 
 }

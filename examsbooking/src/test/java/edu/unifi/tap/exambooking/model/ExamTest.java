@@ -3,6 +3,9 @@ package edu.unifi.tap.exambooking.model;
 import static org.hamcrest.beans.SamePropertyValuesAs.samePropertyValuesAs;
 import static org.junit.Assert.assertThat;
 import java.util.Date;
+
+import javax.validation.constraints.AssertFalse;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -46,7 +49,44 @@ public class ExamTest {
     }
 	
 
+	@Test
+	public void equalsExam() {
+		Exam actualEntity = new Exam(0L, "XYZ", "TEST", new Date(),"Aula 101");
+		Exam sameEntity = new Exam(0L, "XYZ", "TEST", new Date(),"Aula 101");
+
+		Assert.assertTrue(actualEntity.equals(sameEntity));
+	}
 	
+	   @Test
+	    public void notEqualsByDesc() {
+		String examCode = "ZYX";
+		Exam actualEntity = new Exam(0L, examCode, "TEST", new Date(),"Aula 101");
+		Assert.assertNotEquals(expectedEntity, actualEntity);
+	    }
+	   
+	   @Test
+	    public void notEqualsByName() {
+		String examName = "different name";
+		Exam actualEntity = new Exam(0L, "XYZ", examName, new Date(),"Aula 101");
+		Assert.assertNotEquals(expectedEntity, actualEntity);
+	    }  
+	   
+	   @Test
+	    public void notEqualsByDate() {
+		Date differentDate = new Date(10000);
+		Exam actualEntity = new Exam(0L, "XYZ", examName, differentDate,"Aula 101");
+		Assert.assertNotEquals(expectedEntity, actualEntity);
+	    }  
+	   
+	   @Test
+	    public void notEqualsByClassRoom() {
+		   String examClassRoom = "Aula 100";
+		   Exam actualEntity = new Exam(0L, "XYZ", "TEST", new Date(), examClassRoom);
+		   Assert.assertNotEquals(expectedEntity, actualEntity);
+	    }  
+
+
+	   
 	@Test
 	public void equalsExamCodeNull() {
 		Exam actualEntity = new Exam();
@@ -58,7 +98,7 @@ public class ExamTest {
 	}
 	
 	@Test
-	public void equalsExamNameNull() {
+	public void equalsExamDateNull() {
 		Exam actualEntity = new Exam();
 		actualEntity.setExamCode(examCode);
 		actualEntity.setExamName(examName);
@@ -68,7 +108,7 @@ public class ExamTest {
 	}
 	
 	@Test
-	public void equalsExamDateNull() {
+	public void equalsExamNameNull() {
 		Exam actualEntity = new Exam();
 		actualEntity.setExamCode(examCode);
 		actualEntity.setExamName(null);
@@ -78,46 +118,7 @@ public class ExamTest {
 	}
 	
 
-	@Test
-	public void equalsHashCodeExamCodeNull() {
-		Exam actualEntity = new Exam();
-		actualEntity.setExamCode(null);
-		actualEntity.setExamName(examName);
-		actualEntity.setExamDate(examDate);
-		this.expectedEntity.setExamCode(null);
-		Assert.assertEquals(this.expectedEntity.hashCode(), actualEntity.hashCode());
-	}
-	
-	@Test
-	public void equalsHashCodeExamNameNull() {
-		Exam actualEntity = new Exam();
-		actualEntity.setExamCode(examCode);
-		actualEntity.setExamName(examName);
-		actualEntity.setExamDate(null);
-		this.expectedEntity.setExamDate(null);
-		Assert.assertEquals(this.expectedEntity.hashCode(), actualEntity.hashCode());
-	}
-	
-	@Test
-	public void equalsHashCodeExamDateNull() {
-		Exam actualEntity = new Exam();
-		actualEntity.setExamCode(examCode);
-		actualEntity.setExamName(null);
-		actualEntity.setExamDate(examDate);
-		this.expectedEntity.setExamName(null);
-		Assert.assertEquals(this.expectedEntity.hashCode(), actualEntity.hashCode());
-	}
-	
-	@Test
-	public void equalsHashCodeExamClassRoomNull() {
-		Exam actualEntity = new Exam();
-		actualEntity.setExamCode(examCode);
-		actualEntity.setExamName(examName);
-		actualEntity.setExamDate(examDate);
-		actualEntity.setExamClassRoom(null);
-		this.expectedEntity.setExamClassRoom(null);
-		Assert.assertEquals(this.expectedEntity.hashCode(), actualEntity.hashCode());
-	}
+
 	
 	@Test
 	public void equalsHashCode() {
@@ -134,7 +135,7 @@ public class ExamTest {
 	
 	@Test
 	public void object_has_property_values_as () {
-		Exam actualEntity = new Exam(examId,examCode,examName,examDate,"" );
+		Exam actualEntity = new Exam(examId,examCode,examName,examDate,examClassRoom);
 		assertThat(expectedEntity, samePropertyValuesAs(actualEntity));
 	}
 	

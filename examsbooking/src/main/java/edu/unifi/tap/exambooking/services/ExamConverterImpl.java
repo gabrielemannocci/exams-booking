@@ -1,16 +1,15 @@
-package edu.unifi.tap.exambooking.util;
+package edu.unifi.tap.exambooking.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
-import org.springframework.stereotype.Component;
-
+import org.springframework.stereotype.Service;
 import edu.unifi.tap.exambooking.exception.ExamsNotFoundException;
 import edu.unifi.tap.exambooking.model.Exam;
 import edu.unifi.tap.exambooking.services.interfaces.ExamService;
 
 
-@Component
-public class ExamConverter implements Converter<String, Exam> {
+@Service("examConverter")
+public class ExamConverterImpl implements Converter<String, Exam> {
 
 @Autowired
 private ExamService examService;
@@ -22,8 +21,10 @@ private ExamService examService;
 			return examService.findById(id);
 		} catch (ExamsNotFoundException e) {
 			e.printStackTrace();
+			return null;
 		}
-		return null;
     } 
+
+
 
 }

@@ -2,7 +2,7 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>Registration Form</title>
+<title>Error page</title>
 <link rel="stylesheet" type="text/css"
 	th:href="@{/css/main.css}" />
 <link rel="stylesheet"
@@ -21,7 +21,7 @@
 		</div>
 	</nav>
 	<div class="well">
-		<span th:text="${errormessage}"></span>
+		<span id="errormessage" th:text="${errormessage}"></span>
 	</div>
 	<a href="/" class="btn btn-primary" role="button">Go back</a>
 </body>

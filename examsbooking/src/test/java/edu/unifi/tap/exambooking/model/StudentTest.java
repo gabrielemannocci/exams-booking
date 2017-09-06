@@ -1,5 +1,7 @@
 package edu.unifi.tap.exambooking.model;
 
+import java.util.Objects;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -42,4 +44,6 @@ public class StudentTest {
 		Exam actualEntity = null;
 		Assert.assertNotEquals(this.expectedEntity, actualEntity);
     }
+	
+
 }

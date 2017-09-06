@@ -3,7 +3,6 @@ package edu.unifi.tap.exambooking.repository;
 import static org.assertj.core.api.Assertions.assertThat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.junit.Before;
@@ -14,13 +13,14 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-
 import edu.unifi.tap.exambooking.model.Exam;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
-@AutoConfigureTestDatabase(replace=Replace.NONE)//Se presente usa DB reale invece di H2 in memoria
+@SpringBootTest
+@AutoConfigureTestDatabase(replace=Replace.NONE)
 public class ExamRepositoryTest {
 
 	@Autowired

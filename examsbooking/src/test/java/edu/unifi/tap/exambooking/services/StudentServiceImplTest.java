@@ -11,6 +11,8 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import edu.unifi.tap.exambooking.exception.InvalidStudentException;
 import edu.unifi.tap.exambooking.model.Exam;
 import edu.unifi.tap.exambooking.model.Student;
 import edu.unifi.tap.exambooking.repository.StudentRepository;
@@ -49,7 +51,7 @@ public class StudentServiceImplTest {
     }
     
     @Test
-	public void testRegisterUser() throws Exception{
+	public void testRegisterStudent() throws Exception{
     	assertThat(actualStudent).isNotNull();
     	assertThat(actualExam).isNotNull();
 
@@ -59,6 +61,46 @@ public class StudentServiceImplTest {
     	
     	Student saved = studentService.registerStudent(actualStudent, actualExam);
     	assertThat(saved.getStudentId()).isEqualTo(expectedStudent.getStudentId());
+    }
+    
+    
+    @Test(expected = InvalidStudentException.class)
+	public void testRegisterInvalidStudentWithNoFirstNameThenThrowException() throws Exception{
+    	assertThat(actualStudent).isNotNull(); 
+    	assertThat(actualExam).isNotNull();
+
+    	actualStudent.setFirstName("");
+    	actualStudent.setExam(actualExam);
+    	
+    	when(studentRepository.save(actualStudent)).thenReturn(expectedStudent);
+    	
+    	studentService.registerStudent(actualStudent, actualExam);
+    }
+    
+    @Test(expected = InvalidStudentException.class)
+	public void testRegisterInvalidStudentWithNoLastNameThenThrowException() throws Exception{
+    	assertThat(actualStudent).isNotNull(); 
+    	assertThat(actualExam).isNotNull();
+
+    	actualStudent.setLastName("");
+    	actualStudent.setExam(actualExam);
+    	
+    	when(studentRepository.save(actualStudent)).thenReturn(expectedStudent);
+    	
+    	studentService.registerStudent(actualStudent, actualExam);
+    }
+    
+    @Test(expected = InvalidStudentException.class)
+	public void testRegisterInvalidStudentWithNoIdNumberThenThrowException() throws Exception{
+    	assertThat(actualStudent).isNotNull(); 
+    	assertThat(actualExam).isNotNull();
+
+    	actualStudent.setIdNumber("");
+    	actualStudent.setExam(actualExam);
+    	
+    	when(studentRepository.save(actualStudent)).thenReturn(expectedStudent);
+    	
+    	studentService.registerStudent(actualStudent, actualExam);
     }
     
     

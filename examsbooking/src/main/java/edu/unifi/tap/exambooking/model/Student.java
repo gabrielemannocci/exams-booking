@@ -1,5 +1,7 @@
 package edu.unifi.tap.exambooking.model;
 
+import java.util.Objects;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -98,20 +100,10 @@ public class Student {
 		this.exam = exam;
 	}
 
-	
-	
-	
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((email == null) ? 0 : email.hashCode());
-		result = prime * result + ((exam == null) ? 0 : exam.hashCode());
-		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
-		result = prime * result + ((idNumber == null) ? 0 : idNumber.hashCode());
-		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
-		result = prime * result + ((studentId == null) ? 0 : studentId.hashCode());
-		return result;
+
+	 @Override
+	    public int hashCode() {
+		return Objects.hash(studentId, firstName, lastName, email, idNumber, exam);
 	}
 
 	@Override
@@ -161,6 +153,7 @@ public class Student {
 		return "Student [studentId=" + studentId + ", firstName=" + firstName + ", lastName=" + lastName + ", email="
 				+ email + ", idNumber=" + idNumber + ", exam=" + exam + "]";
 	}
+
 
 
 

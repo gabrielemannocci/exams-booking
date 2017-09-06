@@ -3,6 +3,8 @@ package edu.unifi.tap.exambooking.services;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import edu.unifi.tap.exambooking.exception.InvalidStudentException;
 import edu.unifi.tap.exambooking.model.Exam;
 import edu.unifi.tap.exambooking.model.Student;
 import edu.unifi.tap.exambooking.repository.ExamRepository;
@@ -26,7 +28,10 @@ public class StudentServiceImpl implements StudentService{
 
 
 	@Override
-	public Student registerStudent(Student student,Exam exam) { 
+	public Student registerStudent(Student student,Exam exam) throws InvalidStudentException { 
+		System.out.println("registerStudent called "+student.toString());
+		if(student.getFirstName().equals("") || student.getLastName().equals("")  || student.getIdNumber().equals("") )
+			throw new InvalidStudentException("Something wrong happened storing Student data: missing field value");
 		 student.setExam(exam);
 		 return studentRepository.save(student);
 	}

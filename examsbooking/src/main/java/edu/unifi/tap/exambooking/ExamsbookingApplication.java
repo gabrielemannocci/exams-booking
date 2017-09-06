@@ -6,7 +6,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
 @SpringBootApplication//(scanBasePackages="edu.unifi.tap.exambooking")
-//@EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class})
 public class ExamsbookingApplication {
 
 	public static void main(String[] args) {
