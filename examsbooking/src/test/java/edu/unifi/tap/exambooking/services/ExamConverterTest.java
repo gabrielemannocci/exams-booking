@@ -58,9 +58,8 @@ public class ExamConverterTest {
 	@Test
 	public void testExamConverterNoExamFound() throws ExamsNotFoundException{
 		Mockito.when(examServiceMock.findById(-1L)).thenThrow(new ExamsNotFoundException());
-		Exam actual = examConverter.convert("1");
+		Exam actual = examConverter.convert("-1");
 		assertThat(actual).isEqualTo(null);
-//		examConverter.convert("-1");
 	}
 	
 }

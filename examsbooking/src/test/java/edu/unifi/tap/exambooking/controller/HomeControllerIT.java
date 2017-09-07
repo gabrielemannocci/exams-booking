@@ -39,7 +39,6 @@ import edu.unifi.tap.exambooking.services.interfaces.StudentService;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes = ExamsbookingApplication.class)
 @AutoConfigureMockMvc
-//@TestPropertySource(locations = "classpath:application-integrationtest.properties")
 @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class,
     DirtiesContextTestExecutionListener.class,
     TransactionalTestExecutionListener.class})

@@ -66,7 +66,7 @@ public class ExamRepositoryTest {
 		Exam actualExam1 = new Exam(null,"CSZ","Codici e sicurezza",new Date(),null);
 		Exam actualExam2 = new Exam(null,"DWH","Datawarehousing",new Date(),null);
 		Exam actualExam3 = new Exam(null,"TAP","TAP",new Date(),null);
-		
+		 
 	    entityManager.persist(actualExam1);
 	    entityManager.persist(actualExam2);
 	    entityManager.persist(actualExam3);

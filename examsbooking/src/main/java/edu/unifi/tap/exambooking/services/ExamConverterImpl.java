@@ -17,12 +17,13 @@ private ExamService examService;
     @Override
     public Exam convert(String arg0) {
         Long id = new Long(arg0);
+        Exam exam = null;
         try {
-			return examService.findById(id);
+        	exam = examService.findById(id);
 		} catch (ExamsNotFoundException e) {
 			e.printStackTrace();
-			return null;
 		}
+        return exam;
     } 
 
 
