@@ -10,6 +10,7 @@ import edu.unifi.tap.exambooking.model.Student;
 import edu.unifi.tap.exambooking.repository.ExamRepository;
 import edu.unifi.tap.exambooking.repository.StudentRepository;
 import edu.unifi.tap.exambooking.services.interfaces.StudentService;
+import edu.unifi.tap.exambooking.util.ExamsbookingApplicationParams;
 
 @Service("studentService")
 public class StudentServiceImpl implements StudentService{
@@ -31,7 +32,7 @@ public class StudentServiceImpl implements StudentService{
 	public Student registerStudent(Student student,Exam exam) throws InvalidStudentException { 
 		System.out.println("registerStudent called "+student.toString());
 		if(student.getFirstName().equals("") || student.getLastName().equals("")  || student.getIdNumber().equals("") )
-			throw new InvalidStudentException("Something wrong happened storing Student data: missing field value");
+			throw new InvalidStudentException(ExamsbookingApplicationParams.INVALID_STUDENT_ERROR_MSG);
 		 student.setExam(exam);
 		 return studentRepository.save(student);
 	}

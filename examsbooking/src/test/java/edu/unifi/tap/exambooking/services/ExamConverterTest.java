@@ -1,9 +1,7 @@
 package edu.unifi.tap.exambooking.services;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
 import java.util.Date;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,7 +12,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.test.context.junit4.SpringRunner;
-
 import edu.unifi.tap.exambooking.exception.ExamsNotFoundException;
 import edu.unifi.tap.exambooking.model.Exam;
 import edu.unifi.tap.exambooking.services.ExamConverterImpl;

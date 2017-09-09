@@ -35,6 +35,7 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 
 import edu.unifi.tap.exambooking.exception.ExamsNotFoundException;
+import edu.unifi.tap.exambooking.exception.InvalidStudentException;
 import edu.unifi.tap.exambooking.model.Exam;
 import edu.unifi.tap.exambooking.model.Student;
 import edu.unifi.tap.exambooking.services.interfaces.ExamService;
@@ -79,7 +80,7 @@ public class HomeControllerTest {
 	//Se definito com spy chiama il metodo reale
 	@Before
 	public void setupController(){
-		mockMvc = MockMvcBuilders.standaloneSetup(new HomeController(examServiceMock,studentServiceMock)).setHandlerExceptionResolvers(exceptionResolver()).build();
+		mockMvc = MockMvcBuilders.standaloneSetup(new HomeController(examServiceMock,studentServiceMock)).build();//.setHandlerExceptionResolvers(exceptionResolver())
 		actualStudent = new Student(null,"firstName","lastName","aValidEmailTest@email.com","0000000");
 		expectedStudent = new Student(1L,"firstName","lastName","aValidEmailTest@email.com","0000000");
 		expectedExam = new Exam(1L,"DWH", "Datawarehousing",new Date(), "Aula 103");
@@ -259,5 +260,24 @@ public class HomeControllerTest {
 	}
 
 	
-
+	@Test
+	public void whenMissingStudentFieldShouldThrowInvalidStudentException() throws Exception {
+		assertThat(this.studentServiceMock).isNotNull();
+		Mockito.when(this.examServiceMock.findById(expectedExam.getExamId())).thenReturn(expectedExam);
+		Mockito.when(this.studentServiceMock.findStudentByIdNumberAndExam(expectedStudent.getIdNumber(), expectedExam.getExamId())).thenReturn(null);
+		
+		InvalidStudentException ex = new InvalidStudentException(ExamsbookingApplicationParams.INVALID_STUDENT_ERROR_MSG);
+		actualStudent.setFirstName("");
+		Mockito.when(this.studentServiceMock.registerStudent(actualStudent, expectedExam)).thenThrow(ex);
+		
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/registration")
+				.param("email", actualStudent.getEmail())
+				.param("idNumber", actualStudent.getIdNumber())
+				.param("firstName",actualStudent.getFirstName())
+				.param("lastName", actualStudent.getLastName())
+				.param("examParam", expectedExam.getExamId().toString());
+		mockMvc.perform(requestBuilder)
+		.andExpect(view().name("error"))
+		.andExpect(model().attribute("errormessage",ExamsbookingApplicationParams.INVALID_STUDENT_ERROR_MSG));
+	}
 }

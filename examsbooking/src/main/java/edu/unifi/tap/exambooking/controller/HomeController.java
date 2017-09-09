@@ -76,7 +76,7 @@ public class HomeController {
 	 
 	@RequestMapping(value = "/registration", method = RequestMethod.POST)
 	public ModelAndView registerUser(@Valid @ModelAttribute("student")  Student student,  @RequestParam("examParam") Long examId) throws InvalidStudentException, ExamsNotFoundException{
-		LOGGER.debug("+++ registerUser +++");
+		LOGGER.debug("+++ registerUser +++"); 
 		Exam examFound = examService.findById(examId);
 		
 		ModelAndView modelAndView = new ModelAndView();

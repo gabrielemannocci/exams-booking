@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+	<Exam exam_id="0" exam_code="CSZ" exam_name="Codici e sicurezza" exam_date="2017-09-11" exam_classrooom="Aula 101"/>
+	<Exam exam_id="1" exam_code="DWH" exam_name="Datawarehousing" exam_date="2017-09-10" exam_classrooom="Aula 103"/>
+	<Exam exam_id="2" exam_code="TAP" exam_name="Tecniche avanzate di programmazione" exam_date="2017-09-09" exam_classrooom="Aula 101"/>
+</dataset>

@@ -103,56 +103,31 @@ public class Student {
 
 	 @Override
 	    public int hashCode() {
-		return Objects.hash(studentId, firstName, lastName, email, idNumber, exam);
+		return Objects.hash(studentId,firstName,lastName,email,idNumber,exam);
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (!(obj instanceof Student))
-			return false;
-		Student other = (Student) obj;
-		if (email == null) {
-			if (other.email != null)
-				return false;
-		} else if (!email.equals(other.email))
-			return false;
-		if (exam == null) {
-			if (other.exam != null)
-				return false;
-		} else if (!exam.equals(other.exam))
-			return false;
-		if (firstName == null) {
-			if (other.firstName != null)
-				return false;
-		} else if (!firstName.equals(other.firstName))
-			return false;
-		if (idNumber == null) {
-			if (other.idNumber != null)
-				return false;
-		} else if (!idNumber.equals(other.idNumber))
-			return false;
-		if (lastName == null) {
-			if (other.lastName != null)
-				return false;
-		} else if (!lastName.equals(other.lastName))
-			return false;
-		if (studentId == null) {
-			if (other.studentId != null)
-				return false;
-		} else if (!studentId.equals(other.studentId))
-			return false;
+
+
+	 @Override
+	    public boolean equals(Object obj) {
+		if (obj == null) {
+		    return false;
+		}
+		final Student student = (Student) obj;
+		if (!Objects.equals(this.studentId, student.studentId))
+		    return false;
+		if (!Objects.equals(this.firstName, student.firstName))
+		    return false;
+		if (!Objects.equals(this.lastName, student.lastName))
+		    return false;
+		if (!Objects.equals(this.email, student.email))
+		    return false;
+		if (!Objects.equals(this.idNumber, student.idNumber))
+		    return false;
+		if (!Objects.equals(this.exam, student.exam))
+		    return false;
 		return true;
-	}
-
-	@Override
-	public String toString() {
-		return "Student [studentId=" + studentId + ", firstName=" + firstName + ", lastName=" + lastName + ", email="
-				+ email + ", idNumber=" + idNumber + ", exam=" + exam + "]";
-	}
+	    }
 
 
 
