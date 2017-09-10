@@ -10,4 +10,4 @@ addons:
 
 install: true
 script:
-- mvn -f examsbooking/pom.xml clean verify sonar:sonar coveralls:report
+- mvn -f examsbooking/pom.xml clean verify sonar:sonar
