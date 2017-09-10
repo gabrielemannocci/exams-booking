@@ -3,9 +3,10 @@ jdk: oraclejdk8
 # skip installation step
 
 addons:
-  sonarqube:
+  sonarcloud:
+    organization: "gabrielemannocci-github"
     token:
-      secure: "bRSmDrUNOCzIkPjBMm6z4mm9pxVm7sjC9"
+      secure: cd286557793f0fe96562daf341df0fb73214d5ad
 
 
 install: true
