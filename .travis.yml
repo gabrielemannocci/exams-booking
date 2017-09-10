@@ -1,6 +1,13 @@
 language: java
 jdk: oraclejdk8
 # skip installation step
+
+addons:
+  sonarqube:
+    token:
+      secure: "bRSmDrUNOCzIkPjBMm6z4mm9pxVm7sjC9"
+
+
 install: true
 script:
-- mvn -f examsbooking/pom.xml clean verify
+- mvn -f examsbooking/pom.xml clean verify sonar:sonar coveralls:report
