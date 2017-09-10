@@ -30,9 +30,10 @@ public class StudentServiceImpl implements StudentService{
 
 	@Override
 	public Student registerStudent(Student student,Exam exam) throws InvalidStudentException { 
-		System.out.println("registerStudent called "+student.toString());
-		if(student.getFirstName().equals("") || student.getLastName().equals("")  || student.getIdNumber().equals("") )
+		LOGGER.debug("registerStudent called "+student.toString());
+		if(student.getFirstName().equals("") || student.getLastName().equals("")  || student.getIdNumber().equals("") ){
 			throw new InvalidStudentException(ExamsbookingApplicationParams.INVALID_STUDENT_ERROR_MSG);
+		}
 		 student.setExam(exam);
 		 return studentRepository.save(student);
 	}

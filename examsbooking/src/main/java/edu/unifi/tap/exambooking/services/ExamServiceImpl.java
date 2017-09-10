@@ -19,13 +19,13 @@ public class ExamServiceImpl implements ExamService{
 
 	@Override
 	public Exam findById(Long id) throws ExamsNotFoundException {
-		LOGGER.info("findById method called");
+		LOGGER.debug("findById method called");
 		return examRepository.findOne(id);
 	}
 
 	@Override
 	public List<Exam> findAll() throws ExamsNotFoundException {
-		System.out.println("findAll method called");
+		LOGGER.debug("findAll method called");
 		List<Exam> exams =  examRepository.findAll();
 		if(exams.isEmpty())
 			throw new ExamsNotFoundException();

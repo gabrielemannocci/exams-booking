@@ -49,7 +49,7 @@ public class HomeController {
 		} catch (ExamsNotFoundException e) {
 			System.out.println(e.getMessage());
 			modelAndView.addObject("errormessage", e.getMessage());
-			modelAndView.setViewName("error");
+			modelAndView.setViewName(ExamsbookingApplicationParams.EXAMSBOOKING_ERROR_VIEW);
 		}
 		modelAndView.addObject("exams", exams);
 		LOGGER.debug("--- EXIT returnIndex ---");
@@ -58,19 +58,19 @@ public class HomeController {
 
 	 @ExceptionHandler(InvalidStudentException.class)
 	  public ModelAndView caughtInvalidStudentException(Exception exception) {
-	    System.out.println("----Caught InvalidStudentException----");
+		 LOGGER.debug("----Caught InvalidStudentException----");
 	    ModelAndView mav = new ModelAndView();
 	    mav.addObject("errormessage", exception.getMessage());
-	    mav.setViewName("error");
+	    mav.setViewName(ExamsbookingApplicationParams.EXAMSBOOKING_ERROR_VIEW);
 	    return mav;
 	  }
 	 
 	 @ExceptionHandler(ExamsNotFoundException.class)
 	  public ModelAndView caughtExamsNotFoundException(Exception exception) {
-	    System.out.println("----Caught ExamsNotFoundException----");
+		 LOGGER.debug("----Caught ExamsNotFoundException----");
 	    ModelAndView mav = new ModelAndView();
 	    mav.addObject("errormessage", exception.getMessage());
-	    mav.setViewName("error");
+	    mav.setViewName(ExamsbookingApplicationParams.EXAMSBOOKING_ERROR_VIEW);
 	    return mav;
 	  }
 	 
