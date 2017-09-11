@@ -113,6 +113,8 @@ public class Student {
 		if (obj == null) {
 		    return false;
 		}
+		if (this.getClass() != obj.getClass())
+		    return false;
 		final Student student = (Student) obj;
 		if (!Objects.equals(this.studentId, student.studentId))
 		    return false;

@@ -112,6 +112,8 @@ public class Exam {
 		if (obj == null) {
 		    return false;
 		}
+		if (this.getClass() != obj.getClass())
+		    return false;
 		final Exam exam = (Exam) obj;
 		if (!Objects.equals(this.examId, exam.examId))
 		    return false;
