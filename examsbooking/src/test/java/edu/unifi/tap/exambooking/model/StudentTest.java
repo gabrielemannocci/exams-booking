@@ -60,6 +60,12 @@ public class StudentTest {
 		Assert.assertNotEquals(expectedEntity.hashCode(), actualEntity.hashCode());
 	}
 	
+	   @Test
+	    public void notEqualsByClass() {
+			Exam actualEntity = new Exam();
+			Assert.assertFalse(expectedEntity.equals(actualEntity));
+	    }
+	   
 	@Test
 	public void object_set_property_student_id () {
 		Student actualEntity = new Student();

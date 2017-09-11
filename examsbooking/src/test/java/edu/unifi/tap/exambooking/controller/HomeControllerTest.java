@@ -40,7 +40,6 @@ import edu.unifi.tap.exambooking.model.Exam;
 import edu.unifi.tap.exambooking.model.Student;
 import edu.unifi.tap.exambooking.services.interfaces.ExamService;
 import edu.unifi.tap.exambooking.services.interfaces.StudentService;
-import edu.unifi.tap.exambooking.util.ExamsbookingApplicationParams;
 
 /**
  * Unit test for Controller.
@@ -75,8 +74,20 @@ public class HomeControllerTest {
 	private Student expectedStudent;
 	private Exam expectedExam;
 	
+	private static final String EXAMSBOOKING_HOME_VIEW = "index";
+	private static final String EXAMSBOOKING_RESULT_VIEW = "results";
+	private static final String EXAMSBOOKING_ERROR_VIEW = "error";
 	
+	private static final String MODELVIEW_RESULT = "message";
+	private static final String MODELVIEW_ERROR = "errormessage";
+	
+	private static final String STUDENT_REGISTRATION_SUCCESS_MSG = "Student #x# correctly registered for exam #y# !";
+	private static final String STUDENT_ALREADY_REGISTERED_FOR_EXAM_ERROR_MSG = "Student #x# already registered for exam #y# !";
 			
+	private static final String NO_EXAMS_FOUND_ERROR_MSG = "No exams found!";
+	private static final String INVALID_STUDENT_ERROR_MSG = "Something wrong happened storing Student data: missing field value";
+
+	
 	//Se definito com spy chiama il metodo reale
 	@Before
 	public void setupController(){
@@ -86,24 +97,24 @@ public class HomeControllerTest {
 		expectedExam = new Exam(1L,"DWH", "Datawarehousing",new Date(), "Aula 103");
 	}
 
-    private HandlerExceptionResolver exceptionResolver() {
-        SimpleMappingExceptionResolver exceptionResolver = new SimpleMappingExceptionResolver();
-
-        Properties exceptionMappings = new Properties();
-
-        exceptionMappings.put("edu.unifi.tap.exambooking.exception.ExamsNotFoundException", "error");
-        exceptionMappings.put("edu.unifi.tap.exambooking.exception.InvalidStudentException", "error");
-        exceptionMappings.put("java.lang.Exception", "error");
-        exceptionMappings.put("java.lang.RuntimeException", "error");
-
-        exceptionResolver.setExceptionMappings(exceptionMappings);
-
-        Properties statusCodes = new Properties();
-        statusCodes.put("error", "500");
-        exceptionResolver.setStatusCodes(statusCodes);
-
-        return exceptionResolver;
-    }
+//    private HandlerExceptionResolver exceptionResolver() {
+//        SimpleMappingExceptionResolver exceptionResolver = new SimpleMappingExceptionResolver();
+//
+//        Properties exceptionMappings = new Properties();
+//
+//        exceptionMappings.put("edu.unifi.tap.exambooking.exception.ExamsNotFoundException", "error");
+//        exceptionMappings.put("edu.unifi.tap.exambooking.exception.InvalidStudentException", "error");
+//        exceptionMappings.put("java.lang.Exception", "error");
+//        exceptionMappings.put("java.lang.RuntimeException", "error");
+//
+//        exceptionResolver.setExceptionMappings(exceptionMappings);
+//
+//        Properties statusCodes = new Properties();
+//        statusCodes.put("error", "500");
+//        exceptionResolver.setStatusCodes(statusCodes);
+//
+//        return exceptionResolver;
+//    }
     
 	/**
 	 * Exams list 
@@ -154,13 +165,13 @@ public class HomeControllerTest {
 
 	@Test
 	public void testShouldThrowExceptionWhenNoExamsFound() throws Exception {
-		ExamsNotFoundException ex = new ExamsNotFoundException(ExamsbookingApplicationParams.
+		ExamsNotFoundException ex = new ExamsNotFoundException(
 				NO_EXAMS_FOUND_ERROR_MSG);
 		Mockito.when(this.examServiceMock.findAll()).thenThrow(ex);
 
 		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/");
 		mockMvc.perform(requestBuilder)
-		.andExpect(view().name(ExamsbookingApplicationParams.EXAMSBOOKING_ERROR_VIEW))
+		.andExpect(view().name(EXAMSBOOKING_ERROR_VIEW))
 		.andExpect(model().attribute("errormessage",ex.getMessage()));
 	}
 
@@ -206,8 +217,8 @@ public class HomeControllerTest {
 		.param("examParam",  "1"); //expectedExam.getExamId().toString()
 
 		mockMvc.perform(requestBuilder)
-		.andExpect(view().name(ExamsbookingApplicationParams.EXAMSBOOKING_RESULT_VIEW))
-		.andExpect(model().attribute("message", ExamsbookingApplicationParams.STUDENT_REGISTRATION_SUCCESS_MSG
+		.andExpect(view().name(EXAMSBOOKING_RESULT_VIEW))
+		.andExpect(model().attribute("message", STUDENT_REGISTRATION_SUCCESS_MSG
 		.replace("#x#", expectedStudent.getLastName())
 		.replace("#y#", expectedExam.getExamName())));
 		
@@ -250,7 +261,7 @@ public class HomeControllerTest {
 		mockMvc.perform(requestBuilder)
 		.andExpect(view().name("error"))
 		.andExpect(model().attribute("errormessage",
-				ExamsbookingApplicationParams.STUDENT_ALREADY_REGISTERED_FOR_EXAM_ERROR_MSG.replace("#x#", expectedStudent.getLastName())
+				STUDENT_ALREADY_REGISTERED_FOR_EXAM_ERROR_MSG.replace("#x#", expectedStudent.getLastName())
 				.replace("#y#", expectedExam.getExamName())));
 		
 		InOrder inOrder = Mockito.inOrder(examServiceMock,studentServiceMock);
@@ -266,7 +277,7 @@ public class HomeControllerTest {
 		Mockito.when(this.examServiceMock.findById(expectedExam.getExamId())).thenReturn(expectedExam);
 		Mockito.when(this.studentServiceMock.findStudentByIdNumberAndExam(expectedStudent.getIdNumber(), expectedExam.getExamId())).thenReturn(null);
 		
-		InvalidStudentException ex = new InvalidStudentException(ExamsbookingApplicationParams.INVALID_STUDENT_ERROR_MSG);
+		InvalidStudentException ex = new InvalidStudentException(INVALID_STUDENT_ERROR_MSG);
 		actualStudent.setFirstName("");
 		Mockito.when(this.studentServiceMock.registerStudent(actualStudent, expectedExam)).thenThrow(ex);
 		
@@ -278,6 +289,6 @@ public class HomeControllerTest {
 				.param("examParam", expectedExam.getExamId().toString());
 		mockMvc.perform(requestBuilder)
 		.andExpect(view().name("error"))
-		.andExpect(model().attribute("errormessage",ExamsbookingApplicationParams.INVALID_STUDENT_ERROR_MSG));
+		.andExpect(model().attribute("errormessage",INVALID_STUDENT_ERROR_MSG));
 	}
 }

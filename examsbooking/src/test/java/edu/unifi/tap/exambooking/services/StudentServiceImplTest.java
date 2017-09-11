@@ -113,7 +113,6 @@ public class StudentServiceImplTest {
     	thenReturn(expectedStudent);
     	
     	Student found = studentService.findStudentByIdNumberAndExam(actualStudent.getIdNumber(), actualExam.getExamId());
-    	System.out.println("FOUND "+found.getStudentId());
     	assertThat(found.getStudentId()).isEqualTo(expectedStudent.getStudentId());
     }
     

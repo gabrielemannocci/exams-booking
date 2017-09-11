@@ -12,7 +12,8 @@ import edu.unifi.tap.exambooking.services.interfaces.ExamService;
 @Service("examService")
 public class ExamServiceImpl implements ExamService{
 
-	final static Logger LOGGER = Logger.getLogger(ExamServiceImpl.class);
+	static final Logger LOGGER = Logger.getLogger(ExamServiceImpl.class);
+	private static final String NO_EXAMS_FOUND_ERROR_MSG = "No exams found!";
 	
 	@Autowired
 	private ExamRepository examRepository;
@@ -28,7 +29,7 @@ public class ExamServiceImpl implements ExamService{
 		LOGGER.debug("findAll method called");
 		List<Exam> exams =  examRepository.findAll();
 		if(exams.isEmpty())
-			throw new ExamsNotFoundException();
+			throw new ExamsNotFoundException(NO_EXAMS_FOUND_ERROR_MSG);
 		return exams;
 	}
 

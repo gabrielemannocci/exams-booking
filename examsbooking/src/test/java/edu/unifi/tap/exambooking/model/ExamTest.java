@@ -117,7 +117,11 @@ public class ExamTest {
 		Assert.assertFalse(this.expectedEntity.equals(actualEntity));
 	}
 	
-
+	   @Test
+	    public void notEqualsByClass() {
+			Student actualEntity = new Student();
+			Assert.assertFalse(expectedEntity.equals(actualEntity));
+	    }
 
 	
 	@Test
@@ -174,4 +178,6 @@ public class ExamTest {
 		actualEntity.setExamClassRoom("Aula 101");
 		Assert.assertEquals(expectedEntity.getExamClassRoom(),actualEntity.getExamClassRoom());
 	}
+	
+
 }

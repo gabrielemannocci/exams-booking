@@ -1,11 +1,9 @@
 package edu.unifi.tap.exambooking.services;
 
 import org.apache.log4j.Logger;
-import org.apache.log4j.Priority;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Service;
-
 import edu.unifi.tap.exambooking.controller.HomeController;
 import edu.unifi.tap.exambooking.exception.ExamsNotFoundException;
 import edu.unifi.tap.exambooking.model.Exam;
@@ -15,7 +13,7 @@ import edu.unifi.tap.exambooking.services.interfaces.ExamService;
 @Service("examConverter")
 public class ExamConverterImpl implements Converter<String, Exam> {
 
-	final static Logger LOGGER = Logger.getLogger(HomeController.class);
+	static final Logger LOGGER = Logger.getLogger(HomeController.class);
 
 	@Autowired
 	private ExamService examService;

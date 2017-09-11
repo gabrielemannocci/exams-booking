@@ -1,5 +1,10 @@
 package edu.unifi.tap.exambooking.ui;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.text.ParseException;
+import java.util.Date;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -7,21 +12,12 @@ import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.htmlunit.webdriver.MockMvcHtmlUnitDriverBuilder;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-import static org.assertj.core.api.Assertions.assertThat;
+
 import edu.unifi.tap.exambooking.ExamsbookingApplication;
 import edu.unifi.tap.exambooking.model.Exam;
-import edu.unifi.tap.exambooking.util.ExamsbookingApplicationParams;
-
-import java.text.ParseException;
-import java.util.Date;
 
 
 /**
@@ -51,6 +47,9 @@ public class SetupSeleniumTest {
 	private String expectedMessage;
 
 	private String expectedErrorMessage;
+	
+	private static final String STUDENT_REGISTRATION_SUCCESS_MSG = "Student #x# correctly registered for exam #y# !";
+
 	
 	private WebDriver driver;
 
@@ -98,7 +97,7 @@ public class SetupSeleniumTest {
 	@Test
 	public void successfullyRegisterStudent() throws ParseException {
 
-		expectedMessage = ExamsbookingApplicationParams.STUDENT_REGISTRATION_SUCCESS_MSG
+		expectedMessage = STUDENT_REGISTRATION_SUCCESS_MSG
 				.replace("#x#", "lastNameField")
 				.replace("#y#", expectedExam.getExamName());
 				
