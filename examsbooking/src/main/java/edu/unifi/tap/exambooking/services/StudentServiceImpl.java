@@ -3,11 +3,9 @@ package edu.unifi.tap.exambooking.services;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import edu.unifi.tap.exambooking.exception.InvalidStudentException;
 import edu.unifi.tap.exambooking.model.Exam;
 import edu.unifi.tap.exambooking.model.Student;
-import edu.unifi.tap.exambooking.repository.ExamRepository;
 import edu.unifi.tap.exambooking.repository.StudentRepository;
 import edu.unifi.tap.exambooking.services.interfaces.StudentService;
 import edu.unifi.tap.exambooking.util.ExamsbookingApplicationParams;
