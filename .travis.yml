@@ -1,6 +1,14 @@
 language: java
 jdk: oraclejdk8
 # skip installation step
+
+addons:
+  sonarcloud:
+    organization: "gabrielemannocci-github"
+    token:
+      secure: cd286557793f0fe96562daf341df0fb73214d5ad
+
+
 install: true
 script:
-- mvn -f examsbooking/pom.xml clean verify
+- mvn -f examsbooking/pom.xml clean verify sonar:sonar
