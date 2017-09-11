@@ -4,7 +4,7 @@ jdk: oraclejdk8
 
 addons:
   sonarcloud:
-    organization: "gabrielemannocci"
+    organization: "gabrielemannocci-github"
     token:
       secure: cd286557793f0fe96562daf341df0fb73214d5ad
 
