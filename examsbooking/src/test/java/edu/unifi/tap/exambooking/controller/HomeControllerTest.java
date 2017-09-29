@@ -230,7 +230,7 @@ public class HomeControllerTest {
 	@Test
 	public void testWhenExamNotFoundThrowException() throws Exception {
 		assertThat(this.examServiceMock).isNotNull();
-		ExamsNotFoundException ex = new ExamsNotFoundException();
+		ExamsNotFoundException ex = new ExamsNotFoundException(NO_EXAMS_FOUND_ERROR_MSG);
 		Mockito.when(this.examServiceMock.findById(expectedExam.getExamId())).thenThrow(ex);
 		
 		RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/registration")

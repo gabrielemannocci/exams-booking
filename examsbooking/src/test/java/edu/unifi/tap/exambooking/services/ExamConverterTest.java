@@ -38,6 +38,8 @@ public class ExamConverterTest {
 	@MockBean
 	private ExamService examServiceMock;
 	
+	private static final String NO_EXAMS_FOUND_ERROR_MSG = "No exams found!";
+	
 	@Before
 	public void setup() {
 		expectedExam = new Exam(1L,"DWH", "Datawarehousing",new Date(), "Aula 103");
@@ -54,7 +56,7 @@ public class ExamConverterTest {
 	
 	@Test
 	public void testExamConverterNoExamFound() throws ExamsNotFoundException{
-		Mockito.when(examServiceMock.findById(-1L)).thenThrow(new ExamsNotFoundException());
+		Mockito.when(examServiceMock.findById(-1L)).thenThrow(new ExamsNotFoundException(NO_EXAMS_FOUND_ERROR_MSG));
 		Exam actual = examConverter.convert("-1");
 		assertThat(actual).isEqualTo(null);
 	}

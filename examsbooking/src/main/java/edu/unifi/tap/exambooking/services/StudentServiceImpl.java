@@ -31,7 +31,7 @@ public class StudentServiceImpl implements StudentService{
 	public Student registerStudent(Student student,Exam exam) throws InvalidStudentException { 
 		LOGGER.debug("registerStudent called "+student.toString());
 		if(student.getFirstName().equals("") || student.getLastName().equals("")  || student.getIdNumber().equals("") ){
-			throw new InvalidStudentException();
+			throw new InvalidStudentException(INVALID_STUDENT_ERROR_MSG);
 		} else{
 			student.setExam(exam);
 		}
