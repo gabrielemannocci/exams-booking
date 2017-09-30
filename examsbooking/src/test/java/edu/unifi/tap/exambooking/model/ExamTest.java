@@ -2,6 +2,9 @@ package edu.unifi.tap.exambooking.model;
 
 import static org.hamcrest.beans.SamePropertyValuesAs.samePropertyValuesAs;
 import static org.junit.Assert.assertThat;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.validation.constraints.AssertFalse;
@@ -20,25 +23,39 @@ public class ExamTest {
 	private Date examDate;
 	private String examClassRoom;
 
+	private SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+	private String dateInString = "12-09-2017";
+    
 	private Exam expectedEntity;
 
 	@Before
 	public void init() {
 
+		
+        
+
+        
 		examId = 0L;
 		examCode = "XYZ";
 		examName = "TEST";
-		examDate = new Date();
 		examClassRoom = "Aula 101";
 		
+        try {
+        	examDate = formatter.parse(dateInString);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
 		expectedEntity = new Exam(examId,examCode,examName,examDate,examClassRoom );
 
 	}
 	
 
 	@Test
-	public void equalsObject() {
-		Exam actualEntity = new Exam(0L, "XYZ", "TEST", new Date(),"Aula 101");
+	public void equalsObject() throws ParseException {
+		Date date = formatter.parse(dateInString);
+		Exam actualEntity = new Exam(0L, "XYZ", "TEST", date,"Aula 101");
 		Assert.assertEquals(this.expectedEntity,actualEntity);
 	}
 	
@@ -166,9 +183,9 @@ public class ExamTest {
 	}
 	
 	@Test
-	public void object_set_property_exam_date () {
+	public void object_set_property_exam_date () throws ParseException {
 		Exam actualEntity = new Exam();
-		actualEntity.setExamDate(new Date());
+		actualEntity.setExamDate(formatter.parse(dateInString));
 		Assert.assertEquals(expectedEntity.getExamDate(),actualEntity.getExamDate());
 	}
 	
