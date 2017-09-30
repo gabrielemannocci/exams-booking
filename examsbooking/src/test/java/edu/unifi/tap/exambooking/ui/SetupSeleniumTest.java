@@ -54,6 +54,7 @@ public class SetupSeleniumTest {
 	private WebDriver driver;
 
 	private Exam expectedExam;
+	
 	@Before
 	public void setup() {
 //		MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
