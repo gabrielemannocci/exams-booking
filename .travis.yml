@@ -2,6 +2,9 @@ language: java
 jdk: oraclejdk8
 # skip installation step
 
+services:
+- docker
+
 addons:
   sonarcloud:
     organization: "gabrielemannocci-github"
