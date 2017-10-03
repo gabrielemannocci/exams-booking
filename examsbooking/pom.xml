@@ -207,7 +207,7 @@
 				<configuration>
 					<images>
 						<image>
-							<name>exambooking</name>
+							<name>jako7979/exambooking</name>
 							<run>
 								<ports>
 									<port>8080:8080</port>
