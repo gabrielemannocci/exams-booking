@@ -199,7 +199,7 @@
 					</reportPlugins>
 				</configuration>
 			</plugin>
-<!-- 
+ 
 			<plugin>
 				<groupId>io.fabric8</groupId>
 				<artifactId>docker-maven-plugin</artifactId>
@@ -233,7 +233,7 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin> -->
+			</plugin>
 
 		</plugins>
 		<finalName>exambooking</finalName>
