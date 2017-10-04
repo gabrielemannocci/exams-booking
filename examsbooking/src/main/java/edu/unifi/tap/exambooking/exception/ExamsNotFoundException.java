@@ -9,8 +9,5 @@ public class ExamsNotFoundException  extends Exception {
 		super(message);
 	}
 
-//	public ExamsNotFoundException() {
-//		super();
-//	}
 
 }

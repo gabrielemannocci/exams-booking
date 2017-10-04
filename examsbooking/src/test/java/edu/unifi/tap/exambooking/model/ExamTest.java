@@ -6,6 +6,7 @@ import static org.junit.Assert.assertThat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
 
 import javax.validation.constraints.AssertFalse;
 
@@ -29,7 +30,7 @@ public class ExamTest {
 	private Exam expectedEntity;
 
 	@Before
-	public void init() {
+	public void init() throws ParseException {
 
 		
         
@@ -39,13 +40,7 @@ public class ExamTest {
 		examCode = "XYZ";
 		examName = "TEST";
 		examClassRoom = "Aula 101";
-		
-        try {
-        	examDate = formatter.parse(dateInString);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		examDate = formatter.parse(dateInString);
         
 		expectedEntity = new Exam(examId,examCode,examName,examDate,examClassRoom );
 
@@ -65,14 +60,12 @@ public class ExamTest {
 		Assert.assertNotEquals(this.expectedEntity, actualEntity);
     }
 	
-
-	@Test
-	public void equalsExam() {
-		Exam actualEntity = new Exam(0L, "XYZ", "TEST", new Date(),"Aula 101");
-		Exam sameEntity = new Exam(0L, "XYZ", "TEST", new Date(),"Aula 101");
-
-		Assert.assertTrue(actualEntity.equals(sameEntity));
-	}
+	   @Test
+	    public void notEqualsById() {
+		Long id = 99L;
+		Exam actualEntity = new Exam(id, examCode, "TEST", new Date(),"Aula 101");
+		Assert.assertNotEquals(expectedEntity, actualEntity);
+	    }
 	
 	   @Test
 	    public void notEqualsByDesc() {
@@ -133,6 +126,15 @@ public class ExamTest {
 		this.expectedEntity.setExamName(null);
 		Assert.assertFalse(this.expectedEntity.equals(actualEntity));
 	}
+	@Test
+	public void equalsExamClassRoomNull() {
+		Exam actualEntity = new Exam();
+		actualEntity.setExamCode(examCode);
+		actualEntity.setExamName(examName);
+		actualEntity.setExamDate(examDate);
+		this.expectedEntity.setExamClassRoom(null);
+		Assert.assertFalse(this.expectedEntity.equals(actualEntity));
+	}
 	
 	   @Test
 	    public void notEqualsByClass() {
@@ -182,6 +184,8 @@ public class ExamTest {
 		Assert.assertEquals(expectedEntity.getExamName(),actualEntity.getExamName());
 	}
 	
+
+	
 	@Test
 	public void object_set_property_exam_date () throws ParseException {
 		Exam actualEntity = new Exam();
@@ -189,12 +193,16 @@ public class ExamTest {
 		Assert.assertEquals(expectedEntity.getExamDate(),actualEntity.getExamDate());
 	}
 	
+	
 	@Test
-	public void object_set_property_exam_classRoom () {
-		Exam actualEntity = new Exam();
-		actualEntity.setExamClassRoom("Aula 101");
-		Assert.assertEquals(expectedEntity.getExamClassRoom(),actualEntity.getExamClassRoom());
+	public void not_equal_exam_name () throws ParseException {
+		Exam actualEntity = new Exam(0L, "XYZ", "Datawarehousing", formatter.parse(dateInString), examClassRoom);
+		Assert.assertFalse(expectedEntity.equals(actualEntity));
 	}
 	
-
+	@Test
+	public void not_equal_exam_classRoom () throws ParseException {
+		Exam actualEntity = new Exam(0L, "XYZ", "TEST", formatter.parse(dateInString), "Aula 103");
+		Assert.assertFalse(expectedEntity.equals(actualEntity));
+	}
 }

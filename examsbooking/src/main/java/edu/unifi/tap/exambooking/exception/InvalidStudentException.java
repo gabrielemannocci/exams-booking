@@ -9,8 +9,5 @@ public class InvalidStudentException  extends Exception {
 		super(message);
 	}
 
-//	public InvalidStudentException() {
-//		super();
-//	}
 
 }
