@@ -1,5 +1,7 @@
 package edu.unifi.tap.exambooking.model;
 
+import java.util.Date;
+import java.util.Objects;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -15,6 +17,7 @@ public class StudentTest {
 	private String email;
 	private String idNumber;
 	
+
     private Exam exam;
     
 	private Student expectedEntity;
@@ -29,8 +32,7 @@ public class StudentTest {
 		
 
 		expectedEntity = new Student(studentId,firstName,lastName,email,idNumber);
-		exam = new Exam(0L, "XYZ", "TEST", null,"Aula 101");
-
+		exam = new Exam(0L, "XYZ", "TEST", new Date(),"Aula 101");
 	}
 	
 	@Test
@@ -99,6 +101,13 @@ public class StudentTest {
 		Assert.assertEquals(expectedEntity.getIdNumber(),actualEntity.getIdNumber());
 	}
 	
+	@Test
+	public void object_set_property_exam () {
+		Student actualEntity = new Student();
+		actualEntity.setExam(exam);;
+		expectedEntity.setExam(exam);
+		Assert.assertEquals(expectedEntity.getExam(),actualEntity.getExam());
+	}
 	
 	   @Test
 	    public void notEqualsById() {
@@ -133,12 +142,12 @@ public class StudentTest {
 		   Student actualEntity = new Student(studentId, "firstName", "lastName", email, idNumber);
 		   Assert.assertNotEquals(expectedEntity, actualEntity);
 	    } 
-
-		@Test
-		public void notEqualsByExam () {
-			Student actualEntity = new Student(studentId, "firstName", "lastName", "firstName.lastName@email.it", "1000000");
-			actualEntity.setExam(exam);;
-			expectedEntity.setExam(exam);
-			Assert.assertNotEquals(expectedEntity.getExam(),actualEntity.getExam());
-		}
+	   @Test
+	    public void notEqualsByExam() {
+		   expectedEntity.setExam(exam);
+		   Student actualEntity = new Student(0L, "firstName", "lastName", "firstName.lastName@email.it", "1000000");
+		   Exam actualExam = new  Exam(99L, "ABC", "TEST", new Date(),"Aula 103");
+		   actualEntity.setExam(actualExam);
+		   Assert.assertNotEquals(expectedEntity, actualEntity);
+	    }
 }

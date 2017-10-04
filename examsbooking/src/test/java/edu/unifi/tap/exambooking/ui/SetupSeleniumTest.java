@@ -49,7 +49,7 @@ public class SetupSeleniumTest {
 	private String expectedErrorMessage;
 	
 	private static final String STUDENT_REGISTRATION_SUCCESS_MSG = "Student #x# correctly registered for exam #y# !";
-	private static final String INVALID_STUDENT_ERROR_MSG = "Something wrong happened storing Student data: missing field value";
+
 	
 	private WebDriver driver;
 
@@ -69,51 +69,43 @@ public class SetupSeleniumTest {
 		}
 	}
 
-	@Test
-	public void missingStudentIdNumberFieldDisplaysError() {
-		expectedErrorMessage = INVALID_STUDENT_ERROR_MSG;
-		
-		RegisterStudentPage page = RegisterStudentPage.to(driver);
-		ErrorPage errorPage = page.createMessage(ErrorPage.class, 0L, "", "lastNameField", "", "emailField");
-		System.out.println(errorPage.getErrorMessage());
-		assertThat(errorPage.getErrorMessage()).isEqualTo(expectedErrorMessage);
-	}
-
-	@Test
-	public void missingStudentFirstNameFieldDisplaysError() {
-		
-		expectedErrorMessage = INVALID_STUDENT_ERROR_MSG;
-		
-		RegisterStudentPage page = RegisterStudentPage.to(driver);
-		ErrorPage errorPage = page.createMessage(ErrorPage.class, 0L, "", "lastNameField", "idNumberField", "emailField");
-		System.out.println(errorPage.getErrorMessage());
-		assertThat(errorPage.getErrorMessage()).isEqualTo(expectedErrorMessage);
-
-	}
-
-	@Test
-	public void missingStudentLastNameFieldDisplaysError() {
-		
-		expectedErrorMessage = INVALID_STUDENT_ERROR_MSG;
-		
-		RegisterStudentPage page = RegisterStudentPage.to(driver);
-		ErrorPage errorPage = page.createMessage(ErrorPage.class, 0L, "firstNameField", "", "idNumberField", "emailField");
-		System.out.println(errorPage.getErrorMessage());
-		assertThat(errorPage.getErrorMessage()).isEqualTo(expectedErrorMessage);
-
-	}
-	
 //	@Test
-//	public void successfullyRegisterStudent() throws ParseException {
-//
-//		expectedMessage = STUDENT_REGISTRATION_SUCCESS_MSG
-//				.replace("#x#", "lastNameField")
-//				.replace("#y#", expectedExam.getExamName());
-//				
-//		RegisterStudentPage page = RegisterStudentPage.to(driver);
-//
-//		SuccessPage successPage = page.createMessage(SuccessPage.class, 0L, "firstNameField", "lastNameField", "idNumberField", "emailField");
-//		assertThat(successPage.getMessage()).isEqualTo(expectedMessage);
+//	public void missingFieldWithJavascriptValidationDisplaysError() {
+//		CreateMessagePage messagePage = CreateMessagePage.to(driver);
+//		messagePage = messagePage.createMessage(CreateMessagePage.class, "", "");
+//		assertThat(messagePage.getErrors()).isEqualTo("This field is required.");
 //	}
+//
+//	@Test
+//	public void missingFieldServerSideValidationDisplaysError() {
+//		CreateMessagePage messagePage = CreateMessagePage.to(driver);
+//		messagePage = messagePage.createMessage(CreateMessagePage.class, "Summary", "");
+//		assertThat(messagePage.getErrors()).isEqualTo("Message is required.");
+//	}
+
+//	@Test
+//	public void missingStudentFieldDisplaysError() {
+//		
+//		expectedErrorMessage = ExamsbookingApplicationParams.INVALID_STUDENT_ERROR_MSG;
+//		
+//		RegisterStudentPage page = RegisterStudentPage.to(driver);
+//		ErrorPage errorPage = page.createMessage(ErrorPage.class, 0L, "", "lastNameField", "idNumberField", "emailField");
+//		System.out.println(errorPage.getErrorMessage());
+//		assertThat(errorPage.getErrorMessage()).isEqualTo(expectedErrorMessage);
+//
+//	}
+	
+	@Test
+	public void successfullyRegisterStudent() throws ParseException {
+
+		expectedMessage = STUDENT_REGISTRATION_SUCCESS_MSG
+				.replace("#x#", "lastNameField")
+				.replace("#y#", expectedExam.getExamName());
+				
+		RegisterStudentPage page = RegisterStudentPage.to(driver);
+
+		SuccessPage successPage = page.createMessage(SuccessPage.class, 0L, "firstNameField", "lastNameField", "idNumberField", "emailField");
+		assertThat(successPage.getMessage()).isEqualTo(expectedMessage);
+	}
 }
 
