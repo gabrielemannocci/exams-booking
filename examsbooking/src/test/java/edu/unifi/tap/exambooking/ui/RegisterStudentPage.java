@@ -20,7 +20,7 @@ public class RegisterStudentPage extends AbstractPage{
 	@FindBy(id = "email")
 	private WebElement emailField;
 	
-//	@FindBy(css = "input[type=submit]")
+
 	@FindBy(id = "submit")
 	private WebElement submit;
 	
@@ -28,7 +28,7 @@ public class RegisterStudentPage extends AbstractPage{
         super(driver);
     }
 
-    public <T> T createMessage(Class<T> resultPage, Long idExam, String firstNameField, String lastNameField, String idNumberField, String emailField) {
+    public <T> T createMessage(Class<T> resultPage, String firstNameField, String lastNameField, String idNumberField, String emailField) {
     	this.firstNameField.sendKeys(firstNameField);
         this.lastNameField.sendKeys(lastNameField);
     	this.idNumberField.sendKeys(idNumberField);

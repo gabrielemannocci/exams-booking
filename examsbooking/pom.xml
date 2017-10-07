@@ -74,7 +74,23 @@
 			<version>1.2.0</version>
 			<scope>test</scope>
 		</dependency>
-
+		
+		<!-- CUCUMBER -->
+		<dependency>
+			<groupId>info.cukes</groupId>
+			<artifactId>cucumber-spring</artifactId>
+			<version>1.2.5</version>
+			<scope>test</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>info.cukes</groupId>
+			<artifactId>cucumber-junit</artifactId>
+			<version>1.2.5</version>
+			<scope>test</scope>
+		</dependency>
+		
+		<!-- LOG 4J -->
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
@@ -108,10 +124,15 @@
 		</dependency>
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
-			<artifactId>selenium-firefox-driver</artifactId>
-			<version>${selenium.version}</version>
+			<artifactId>selenium-java</artifactId>
+			<version>2.52.0</version>
 		</dependency>
-
+		
+		<dependency>
+    		<groupId>org.seleniumhq.selenium</groupId>
+    		<artifactId>selenium-chrome-driver</artifactId>
+    		<version>3.6.0</version>
+		</dependency>
 
 
 	</dependencies>

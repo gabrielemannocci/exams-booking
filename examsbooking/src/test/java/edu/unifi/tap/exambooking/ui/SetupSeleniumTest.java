@@ -9,7 +9,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.Select;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -95,6 +97,8 @@ public class SetupSeleniumTest {
 //
 //	}
 	
+	
+	
 	@Test
 	public void successfullyRegisterStudent() throws ParseException {
 
@@ -104,7 +108,7 @@ public class SetupSeleniumTest {
 				
 		RegisterStudentPage page = RegisterStudentPage.to(driver);
 
-		SuccessPage successPage = page.createMessage(SuccessPage.class, 0L, "firstNameField", "lastNameField", "idNumberField", "emailField");
+		SuccessPage successPage = page.createMessage(SuccessPage.class, "firstNameField", "lastNameField", "idNumberField", "emailField");
 		assertThat(successPage.getMessage()).isEqualTo(expectedMessage);
 	}
 }
