@@ -74,7 +74,7 @@
 			<version>1.2.0</version>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<!-- CUCUMBER -->
 		<dependency>
 			<groupId>info.cukes</groupId>
@@ -82,14 +82,22 @@
 			<version>1.2.5</version>
 			<scope>test</scope>
 		</dependency>
-		
+
+		<dependency>
+			<groupId>info.cukes</groupId>
+			<artifactId>cucumber-java</artifactId>
+			<version>1.2.5</version>
+			<scope>test</scope>
+		</dependency>
+
 		<dependency>
 			<groupId>info.cukes</groupId>
 			<artifactId>cucumber-junit</artifactId>
 			<version>1.2.5</version>
 			<scope>test</scope>
 		</dependency>
-		
+
+
 		<!-- LOG 4J -->
 		<dependency>
 			<groupId>log4j</groupId>
@@ -127,11 +135,11 @@
 			<artifactId>selenium-java</artifactId>
 			<version>2.52.0</version>
 		</dependency>
-		
+
 		<dependency>
-    		<groupId>org.seleniumhq.selenium</groupId>
-    		<artifactId>selenium-chrome-driver</artifactId>
-    		<version>3.6.0</version>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-chrome-driver</artifactId>
+			<version>3.6.0</version>
 		</dependency>
 
 
@@ -220,13 +228,13 @@
 					</reportPlugins>
 				</configuration>
 			</plugin>
- 
+
 			<plugin>
 				<groupId>io.fabric8</groupId>
 				<artifactId>docker-maven-plugin</artifactId>
 				<version>0.17.2</version>
 				<configuration>
-					<images>  
+					<images>
 						<image>
 							<name>jako7979/exambooking</name>
 							<run>

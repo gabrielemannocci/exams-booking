@@ -1,4 +1,4 @@
-package edu.unifi.tap.exambooking.ui;
+package edu.unifi.tap.exambooking.bdd;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;

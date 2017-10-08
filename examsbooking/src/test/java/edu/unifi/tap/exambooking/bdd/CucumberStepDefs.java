@@ -19,9 +19,6 @@ import cucumber.api.java.en.When;
 import edu.unifi.tap.exambooking.ExamsbookingApplication;
 import edu.unifi.tap.exambooking.model.Exam;
 import edu.unifi.tap.exambooking.services.interfaces.ExamService;
-import edu.unifi.tap.exambooking.ui.ErrorPage;
-import edu.unifi.tap.exambooking.ui.RegisterStudentPage;
-import edu.unifi.tap.exambooking.ui.SuccessPage;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = ExamsbookingApplication.class)
@@ -56,23 +53,24 @@ public class CucumberStepDefs {
 		registerStudentPage = RegisterStudentPage.to(driver);
 	}
 
-	@When("I'll select an exam from dropdown list")
+	@When("^I'll select an exam from dropdown list$")
 	public void selectExam() throws Throwable {
 		Select dropdown = new Select(driver.findElement(By.id("examId")));
 		dropdown.selectByIndex(1);
 	}
 
-	@And("I'll insert student information")
-	public void registerStudent() throws Throwable {
-		successPage = registerStudentPage.createMessage(SuccessPage.class, "firstNameField", "lastNameField", "idNumberField", "emailField");
+	@And("^I'll insert student information (.+), (.+), (.+), (.+)$")
+	public void registerStudent(String firstName, String lastName, String idNumber, String email) throws Throwable {
+		successPage = registerStudentPage.createMessage(SuccessPage.class, firstName, lastName, idNumber, email);
+
 	}
 
-	@Then("User is registered for exam")
-	public void getSuccessPage() throws Throwable {
+	@Then("^User (.+) is correctly registered for exam$")
+	public void getSuccessPage(String lastName) throws Throwable {
 		
 		Exam found = examService.findById(1L);
 		expectedMessage = STUDENT_REGISTRATION_SUCCESS_MSG
-				.replace("#x#", "lastNameField")
+				.replace("#x#", lastName)
 				.replace("#y#", found.getExamName());
 		
 		assertThat(successPage.getMessage()).isEqualTo(expectedMessage);

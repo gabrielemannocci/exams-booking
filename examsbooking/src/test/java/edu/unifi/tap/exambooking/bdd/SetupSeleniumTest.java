@@ -1,4 +1,4 @@
-package edu.unifi.tap.exambooking.ui;
+package edu.unifi.tap.exambooking.bdd;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
