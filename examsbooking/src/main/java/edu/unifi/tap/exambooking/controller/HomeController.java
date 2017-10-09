@@ -95,10 +95,8 @@ public class HomeController {
 			modelAndView.setViewName(EXAMSBOOKING_RESULT_VIEW);
 			modelAndView.addObject(MODELVIEW_RESULT,STUDENT_REGISTRATION_SUCCESS_MSG.
 					replace("#x#", saved.getLastName()).replace("#y#", examFound.getExamName()));
-
 		}
 		else{
-
 			modelAndView.setViewName(EXAMSBOOKING_ERROR_VIEW);
 			modelAndView.addObject(MODELVIEW_ERROR,STUDENT_ALREADY_REGISTERED_FOR_EXAM_ERROR_MSG
 					.replace("#x#", studentFound.getLastName())

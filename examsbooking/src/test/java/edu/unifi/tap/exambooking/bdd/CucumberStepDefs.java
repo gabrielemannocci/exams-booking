@@ -11,7 +11,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.htmlunit.webdriver.MockMvcHtmlUnitDriverBuilder;
 import org.springframework.web.context.WebApplicationContext;
-import cucumber.api.java.After;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -42,7 +41,7 @@ public class CucumberStepDefs {
 	private String expectedErrorMessage;
 	
 	private static final String STUDENT_REGISTRATION_SUCCESS_MSG = "Student #x# correctly registered for exam #y# !";
-
+	private static final String INVALID_STUDENT_ERROR_MSG = "Something wrong happened storing Student data: missing field value";
 	private WebDriver driver;
 
 
@@ -53,18 +52,23 @@ public class CucumberStepDefs {
 		registerStudentPage = RegisterStudentPage.to(driver);
 	}
 
-	@When("^I'll select an exam from dropdown list$")
-	public void selectExam() throws Throwable {
+	@When("^I'll select exam with id (\\d+) from dropdown list$")
+	public void selectExam(int examId) throws Throwable {
 		Select dropdown = new Select(driver.findElement(By.id("examId")));
-		dropdown.selectByIndex(1);
+		dropdown.selectByIndex(examId);
 	}
 
 	@And("^I'll insert student information (.+), (.+), (.+), (.+)$")
 	public void registerStudent(String firstName, String lastName, String idNumber, String email) throws Throwable {
 		successPage = registerStudentPage.createMessage(SuccessPage.class, firstName, lastName, idNumber, email);
-
 	}
 
+	 
+	@And("^I'll insert student information incomplete such as (.+), (.+), (.+)$")
+	public void registerStudentMissingInfo(String firstName, String lastName, String email) throws Throwable {
+		errorPage = registerStudentPage.createMessage(ErrorPage.class, firstName, lastName, "", email);
+	}
+	
 	@Then("^User (.+) is correctly registered for exam$")
 	public void getSuccessPage(String lastName) throws Throwable {
 		
@@ -79,5 +83,13 @@ public class CucumberStepDefs {
 		}
 	}
 
+	@Then("^Invalid student exception is thrown")
+	public void getErrorPage() throws Throwable {
 
+		expectedErrorMessage = INVALID_STUDENT_ERROR_MSG;
+		assertThat(errorPage.getErrorMessage()).isEqualTo(expectedErrorMessage);
+		if(driver != null) {
+			driver.close();
+		}
+	}
 }
