@@ -27,19 +27,19 @@ public class CucumberStepDefs {
 	@Autowired
 	private WebApplicationContext context;
 
-	
+
 	private RegisterStudentPage registerStudentPage;
-	
+
 	private SuccessPage successPage;
-	
+
 	private ErrorPage errorPage;
-	
+
 	@Autowired
 	private ExamService examService;
 
 	private String expectedMessage;
 	private String expectedErrorMessage;
-	
+
 	private static final String STUDENT_REGISTRATION_SUCCESS_MSG = "Student #x# correctly registered for exam #y# !";
 	private static final String INVALID_STUDENT_ERROR_MSG = "Something wrong happened storing Student data: missing field value";
 	private WebDriver driver;
@@ -63,26 +63,27 @@ public class CucumberStepDefs {
 		successPage = registerStudentPage.createMessage(SuccessPage.class, firstName, lastName, idNumber, email);
 	}
 
-	 
+
 	@And("^I'll insert student information incomplete such as (.+), (.+), (.+)$")
 	public void registerStudentMissingInfo(String firstName, String lastName, String email) throws Throwable {
 		errorPage = registerStudentPage.createMessage(ErrorPage.class, firstName, lastName, "", email);
 	}
-	
+
 	@Then("^User (.+) is correctly registered for exam$")
 	public void getSuccessPage(String lastName) throws Throwable {
-		
+
 		Exam found = examService.findById(1L);
 		expectedMessage = STUDENT_REGISTRATION_SUCCESS_MSG
 				.replace("#x#", lastName)
 				.replace("#y#", found.getExamName());
-		
+
 		assertThat(successPage.getMessage()).isEqualTo(expectedMessage);
 		if(driver != null) {
 			driver.close();
 		}
 	}
 
+	
 	@Then("^Invalid student exception is thrown")
 	public void getErrorPage() throws Throwable {
 
