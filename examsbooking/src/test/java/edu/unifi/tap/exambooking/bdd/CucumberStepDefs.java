@@ -1,6 +1,9 @@
 package edu.unifi.tap.exambooking.bdd;
 
 import static org.assertj.core.api.Assertions.assertThat;
+
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -45,6 +48,12 @@ public class CucumberStepDefs {
 	private WebDriver driver;
 
 
+	@BeforeClass
+	public static void beforeTest(){
+		System.out.println();
+		System.out.println("+++++ START FUNCTIONAL TESTS +++++");
+		System.out.println();
+	}
 
 	@Given("Registration page")
 	public void homePage() throws Throwable {
@@ -92,5 +101,14 @@ public class CucumberStepDefs {
 		if(driver != null) {
 			driver.close();
 		}
+	}
+	
+	@AfterClass
+	public static void afterTest(){
+		System.out.println();
+		System.out.println("----- END FUNCTIONAL TESTS -----");
+		System.out.println();
+
+		
 	}
 }

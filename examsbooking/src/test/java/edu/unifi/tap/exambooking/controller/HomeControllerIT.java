@@ -136,6 +136,8 @@ public class HomeControllerIT {
 		
 	}
 	
+	
+	
 	@Test
 	@ExpectedDatabase(value = "/examData.xml",table="Exam")
 	public void testRegisterInvalidStudentThenThrowException() throws Exception {
