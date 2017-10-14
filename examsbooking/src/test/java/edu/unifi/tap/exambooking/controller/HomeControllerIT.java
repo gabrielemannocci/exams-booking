@@ -2,6 +2,7 @@ package edu.unifi.tap.exambooking.controller;
 
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
+import com.github.springtestdbunit.annotation.DbUnitConfiguration;
 import com.github.springtestdbunit.annotation.ExpectedDatabase;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
@@ -10,8 +11,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.Date;
 
 import javax.servlet.ServletContext;
+
+import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +46,7 @@ import edu.unifi.tap.exambooking.services.interfaces.StudentService;
     DirtiesContextTestExecutionListener.class,
     TransactionalTestExecutionListener.class,
     DbUnitTestExecutionListener.class })
-@DatabaseSetup("examData.xml")
+@DatabaseSetup("/examData.xml")
 public class HomeControllerIT {
 
 	@Autowired
@@ -59,9 +64,9 @@ public class HomeControllerIT {
 	/**
 	 * Beans used in test
 	 */
-	private Student actualStudent;
-	private Student expectedStudent;
-	private Exam expectedExam;
+	private static Student actualStudent;
+	private static Student expectedStudent;
+	private static Exam expectedExam;
 	
 	private static final String EXAMSBOOKING_HOME_VIEW = "index";
 	private static final String EXAMSBOOKING_RESULT_VIEW = "results";
@@ -76,11 +81,16 @@ public class HomeControllerIT {
 	private static final String NO_EXAMS_FOUND_ERROR_MSG = "No exams found!";
 	private static final String INVALID_STUDENT_ERROR_MSG = "Something wrong happened storing Student data: missing field value";
 	
-	@Before
-	public void setupController(){
+	@BeforeClass
+	public static void setupController(){
 		actualStudent = new Student(null,"firstName","lastName","aValidEmailTest@email.com","0000000");
 		expectedStudent = new Student(1L,"firstName","lastName","aValidEmailTest@email.com","0000000");
 		expectedExam = new Exam(1L,"DWH", "Datawarehousing",new Date(), "Aula 103");
+		
+		System.out.println();
+		System.out.println("+++++ START INTEGRATION TESTS +++++");
+		System.out.println();
+
 	}
 	
 	/**
@@ -100,7 +110,7 @@ public class HomeControllerIT {
 	}
 	
 	@Test
-	@DatabaseSetup(value = "examData.xml")
+	@DatabaseSetup(value = "/examData.xml")
 	public void testReturnHomeView() throws Exception{
 		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/");
 		ModelAndViewAssert.assertViewName(mockMvc.perform(requestBuilder).
@@ -108,7 +118,7 @@ public class HomeControllerIT {
 	}
 	
 	@Test
-	@ExpectedDatabase(value = "afterRegistrationData.xml")
+	@ExpectedDatabase(value = "/afterRegistrationData.xml")
 	public void testRegisterStudent() throws Exception {
 		
 		RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/registration")
@@ -127,7 +137,7 @@ public class HomeControllerIT {
 	}
 	
 	@Test
-	@ExpectedDatabase(value = "examData.xml",table="Exam")
+	@ExpectedDatabase(value = "/examData.xml",table="Exam")
 	public void testRegisterInvalidStudentThenThrowException() throws Exception {
 		
 		RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/registration")
@@ -143,6 +153,14 @@ public class HomeControllerIT {
 		
 	}
 
+	@AfterClass
+	public static void afterTest(){
+		System.out.println();
+		System.out.println("----- END INTEGRATION TESTS -----");
+		System.out.println();
+
+		
+	}
 }
 
 
