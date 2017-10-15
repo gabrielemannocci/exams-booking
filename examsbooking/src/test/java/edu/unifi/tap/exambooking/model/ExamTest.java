@@ -2,14 +2,9 @@ package edu.unifi.tap.exambooking.model;
 
 import static org.hamcrest.beans.SamePropertyValuesAs.samePropertyValuesAs;
 import static org.junit.Assert.assertThat;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Objects;
-
-import javax.validation.constraints.AssertFalse;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

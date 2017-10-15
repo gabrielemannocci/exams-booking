@@ -1,12 +1,9 @@
 package edu.unifi.tap.exambooking.model;
 
 import java.util.Date;
-import java.util.Objects;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
 
 public class StudentTest {

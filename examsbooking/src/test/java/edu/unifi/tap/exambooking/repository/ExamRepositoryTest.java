@@ -20,7 +20,7 @@ import edu.unifi.tap.exambooking.model.Exam;
 @RunWith(SpringRunner.class)
 @DataJpaTest
 @SpringBootTest
-@AutoConfigureTestDatabase(replace=Replace.NONE)
+//@AutoConfigureTestDatabase(replace=Replace.NONE)
 public class ExamRepositoryTest {
 
 	@Autowired
@@ -32,11 +32,13 @@ public class ExamRepositoryTest {
 	private Exam expected;
 
 	private List<Exam> exams;
+	private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	
 	
 	@Before
 	public void setUp() throws ParseException {
 
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		
 	            
 		expected = new Exam();
 		expected.setExamId(0L);
@@ -48,8 +50,8 @@ public class ExamRepositoryTest {
 	}
 	
 	@Test
-	public void whenFindById_thenReturnExam() {
-		Exam actualExam = new Exam(null,"CSZ","Codici e sicurezza",new Date(),null);
+	public void whenFindById_thenReturnExam() throws ParseException {
+		Exam actualExam = new Exam(null,"CSZ","Codici e sicurezza",formatter.parse("2017-07-09 09:00:00"),null);
 
 		entityManager.persist(actualExam);
 	    entityManager.flush();
@@ -61,11 +63,11 @@ public class ExamRepositoryTest {
 	}
 	
 	@Test
-	public void findAllExams(){
+	public void findAllExams() throws ParseException{
 		
-		Exam actualExam1 = new Exam(null,"CSZ","Codici e sicurezza",new Date(),null);
-		Exam actualExam2 = new Exam(null,"DWH","Datawarehousing",new Date(),null);
-		Exam actualExam3 = new Exam(null,"TAP","TAP",new Date(),null);
+		Exam actualExam1 = new Exam(null,"CSZ","Codici e sicurezza",formatter.parse("2017-07-09 09:00:00"),null);
+		Exam actualExam2 = new Exam(null,"DWH","Datawarehousing",formatter.parse("2017-07-10 09:00:00"),null);
+		Exam actualExam3 = new Exam(null,"TAP","TAP",formatter.parse("2017-07-11 09:00:00"),null);
 		 
 	    entityManager.persist(actualExam1);
 	    entityManager.persist(actualExam2);

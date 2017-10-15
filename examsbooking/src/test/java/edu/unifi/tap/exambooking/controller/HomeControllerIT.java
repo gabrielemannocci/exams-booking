@@ -110,7 +110,7 @@ public class HomeControllerIT {
 	}
 	
 	@Test
-	@DatabaseSetup(value = "/examData.xml")
+	@ExpectedDatabase(value = "/examData.xml")
 	public void testReturnHomeView() throws Exception{
 		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/");
 		ModelAndViewAssert.assertViewName(mockMvc.perform(requestBuilder).
