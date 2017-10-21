@@ -2,6 +2,7 @@ package edu.unifi.tap.exambooking.controller;
 
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
+import com.github.springtestdbunit.annotation.DatabaseTearDown;
 import com.github.springtestdbunit.annotation.DbUnitConfiguration;
 import com.github.springtestdbunit.annotation.ExpectedDatabase;
 
@@ -9,6 +10,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import java.util.Date;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.servlet.ServletContext;
 
@@ -33,6 +38,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.servlet.ModelAndView;
+
 import edu.unifi.tap.exambooking.ExamsbookingApplication;
 import edu.unifi.tap.exambooking.model.Exam;
 import edu.unifi.tap.exambooking.model.Student;
@@ -46,7 +53,6 @@ import edu.unifi.tap.exambooking.services.interfaces.StudentService;
     DirtiesContextTestExecutionListener.class,
     TransactionalTestExecutionListener.class,
     DbUnitTestExecutionListener.class })
-@DatabaseSetup("/examData.xml")
 public class HomeControllerIT {
 
 	@Autowired
@@ -54,12 +60,6 @@ public class HomeControllerIT {
 
 	@Autowired
 	private WebApplicationContext wac;
-
-	@Autowired
-	private StudentService studentService;
-
-	@Autowired
-	private ExamService examService;
 
 	/**
 	 * Beans used in test
@@ -70,16 +70,11 @@ public class HomeControllerIT {
 	
 	private static final String EXAMSBOOKING_HOME_VIEW = "index";
 	private static final String EXAMSBOOKING_RESULT_VIEW = "results";
-	private static final String EXAMSBOOKING_ERROR_VIEW = "error";
-	
-	private static final String MODELVIEW_RESULT = "message";
-	private static final String MODELVIEW_ERROR = "errormessage";
 	
 	private static final String STUDENT_REGISTRATION_SUCCESS_MSG = "Student #x# correctly registered for exam #y# !";
-	private static final String STUDENT_ALREADY_REGISTERED_FOR_EXAM_ERROR_MSG = "Student #x# already registered for exam #y# !";
-			
-	private static final String NO_EXAMS_FOUND_ERROR_MSG = "No exams found!";
+	
 	private static final String INVALID_STUDENT_ERROR_MSG = "Something wrong happened storing Student data: missing field value";
+	private static final String SELECTED_EXAM_ID = "1";
 	
 	@BeforeClass
 	public static void setupController(){
@@ -110,11 +105,11 @@ public class HomeControllerIT {
 	}
 	
 	@Test
-	@ExpectedDatabase(value = "/examData.xml")
+	@DatabaseSetup("/examData.xml")
 	public void testReturnHomeView() throws Exception{
 		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/");
-		ModelAndViewAssert.assertViewName(mockMvc.perform(requestBuilder).
-				andReturn().getModelAndView(), "index");
+		ModelAndView m = mockMvc.perform(requestBuilder).andReturn().getModelAndView();
+		ModelAndViewAssert.assertViewName(m, EXAMSBOOKING_HOME_VIEW);
 	}
 	
 	@Test
@@ -126,36 +121,71 @@ public class HomeControllerIT {
 		.param("idNumber", actualStudent.getIdNumber())
 		.param("firstName", actualStudent.getFirstName())
 		.param("lastName", actualStudent.getLastName())
-		.param("examParam",  "1"); //expectedExam.getExamId().toString()
+		.param("examParam",  SELECTED_EXAM_ID);
 
 		mockMvc.perform(requestBuilder)
 		.andExpect(view().name(EXAMSBOOKING_RESULT_VIEW))
 		.andExpect(model().attribute("message", STUDENT_REGISTRATION_SUCCESS_MSG
 		.replace("#x#", expectedStudent.getLastName())
 		.replace("#y#", expectedExam.getExamName())));
-		
+
 	}
 	
 	
 	
 	@Test
 	@ExpectedDatabase(value = "/examData.xml",table="Exam")
-	public void testRegisterInvalidStudentThenThrowException() throws Exception {
+	public void testRegisterInvalidStudentMissingIdNumberThenThrowException() throws Exception {
 		
 		RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/registration")
 		.param("email", actualStudent.getEmail())
 		.param("idNumber", "")
 		.param("firstName", actualStudent.getFirstName())
 		.param("lastName", actualStudent.getLastName())
-		.param("examParam",  "1");
+		.param("examParam", SELECTED_EXAM_ID);
 
 		mockMvc.perform(requestBuilder)
 		.andExpect(view().name("error"))
 		.andExpect(model().attribute("errormessage",INVALID_STUDENT_ERROR_MSG));
-		
+
 	}
 
+	@Test
+	@ExpectedDatabase(value = "/examData.xml",table="Exam")
+	public void testRegisterInvalidStudentMissingLastNameThenThrowException() throws Exception {
+		
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/registration")
+		.param("email", actualStudent.getEmail())
+		.param("idNumber", actualStudent.getIdNumber())
+		.param("firstName", actualStudent.getFirstName())
+		.param("lastName", "")
+		.param("examParam", SELECTED_EXAM_ID);
+
+		mockMvc.perform(requestBuilder)
+		.andExpect(view().name("error"))
+		.andExpect(model().attribute("errormessage",INVALID_STUDENT_ERROR_MSG));
+
+	}
+	
+	@Test
+	@ExpectedDatabase(value = "/examData.xml",table="Exam")
+	public void testRegisterInvalidStudentMissingFirstNameThenThrowException() throws Exception {
+		
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/registration")
+		.param("email", actualStudent.getEmail())
+		.param("idNumber", actualStudent.getIdNumber())
+		.param("firstName", "")
+		.param("lastName", actualStudent.getLastName())
+		.param("examParam", SELECTED_EXAM_ID);
+
+		mockMvc.perform(requestBuilder)
+		.andExpect(view().name("error"))
+		.andExpect(model().attribute("errormessage",INVALID_STUDENT_ERROR_MSG));
+
+	}
+	
 	@AfterClass
+	@DatabaseTearDown(value = "/examData.xml")
 	public static void afterTest(){
 		System.out.println();
 		System.out.println("----- END INTEGRATION TESTS -----");

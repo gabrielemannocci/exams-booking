@@ -1,5 +1,6 @@
 package edu.unifi.tap.exambooking.services;
 
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,7 +38,6 @@ public class StudentServiceImpl implements StudentService{
 		}
 		 return studentRepository.save(student);
 	}
-
 
 
 }
