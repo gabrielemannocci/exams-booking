@@ -78,6 +78,7 @@ public class HomeControllerTest {
 	private static final String EXAMSBOOKING_RESULT_VIEW = "results";
 	private static final String EXAMSBOOKING_ERROR_VIEW = "error";
 	
+	private static final String EXAM_PARAM_INDEX = "1"; 
 	private static final String MODELVIEW_RESULT = "message";
 	private static final String MODELVIEW_ERROR = "errormessage";
 	
@@ -214,7 +215,7 @@ public class HomeControllerTest {
 		.param("idNumber", actualStudent.getIdNumber())
 		.param("firstName", actualStudent.getFirstName())
 		.param("lastName", actualStudent.getLastName())
-		.param("examParam",  "1"); //expectedExam.getExamId().toString()
+		.param("examParam",  EXAM_PARAM_INDEX);
 
 		mockMvc.perform(requestBuilder)
 		.andExpect(view().name(EXAMSBOOKING_RESULT_VIEW))
@@ -256,7 +257,7 @@ public class HomeControllerTest {
 				.param("idNumber", expectedStudent.getIdNumber())
 				.param("firstName", expectedStudent.getFirstName())
 				.param("lastName", expectedStudent.getLastName())
-				.param("examParam", expectedExam.getExamId().toString());
+				.param("examParam", EXAM_PARAM_INDEX);
 	
 		mockMvc.perform(requestBuilder)
 		.andExpect(view().name("error"))

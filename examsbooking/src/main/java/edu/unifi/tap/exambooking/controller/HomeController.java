@@ -50,14 +50,15 @@ public class HomeController {
 		LOGGER.debug("+++ ENTER returnIndex +++");
 		ModelAndView modelAndView = new ModelAndView();
 		List<Exam> exams = null;
-		modelAndView.setViewName(EXAMSBOOKING_HOME_VIEW);
 		try {
 			exams = examService.findAll(); 
 		} catch (ExamsNotFoundException e) {
 			LOGGER.debug(e.getMessage());
 			modelAndView.addObject(MODELVIEW_ERROR, e.getMessage());
 			modelAndView.setViewName(EXAMSBOOKING_ERROR_VIEW);
+			return modelAndView;
 		}
+		modelAndView.setViewName(EXAMSBOOKING_HOME_VIEW);
 		modelAndView.addObject("exams", exams);
 		LOGGER.debug("--- EXIT returnIndex ---");
 		return modelAndView;
