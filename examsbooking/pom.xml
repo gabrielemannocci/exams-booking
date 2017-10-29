@@ -206,7 +206,7 @@
 				</configuration>
 			</plugin>
 
-
+			<!-- FAILSAFE PLUGIN -->
 			  <plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-failsafe-plugin</artifactId>
@@ -220,6 +220,8 @@
 					</execution>
 				</executions>
 			</plugin>
+			
+			<!-- DOCKER PLUGIN -->
 			<plugin>
 				<groupId>io.fabric8</groupId>
 				<artifactId>docker-maven-plugin</artifactId>
@@ -255,6 +257,17 @@
 				</executions>
 			</plugin>
 
+			<plugin>
+				<groupId>org.eluder.coveralls</groupId>
+				<artifactId>coveralls-maven-plugin</artifactId>
+				<version>4.3.0</version>
+				<configuration>
+					<repoToken>bRSmDrUNOCzIkPjBMm6z4mm9pxVm7sjC9</repoToken>
+					<relativeReportDirs>
+						<relativeReportDir>/jacoco</relativeReportDir>
+					</relativeReportDirs>
+				</configuration>
+			</plugin>
 		</plugins>
 		<finalName>exambooking</finalName>
 	</build>
