@@ -17,6 +17,7 @@ import java.util.Set;
 
 import javax.servlet.ServletContext;
 
+import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -61,6 +62,9 @@ public class HomeControllerIT {
 	@Autowired
 	private WebApplicationContext wac;
 
+	static final Logger LOGGER = Logger.getLogger(HomeControllerIT.class);
+
+	
 	/**
 	 * Beans used in test
 	 */
@@ -82,9 +86,9 @@ public class HomeControllerIT {
 		expectedStudent = new Student(1L,"firstName","lastName","aValidEmailTest@email.com","0000000");
 		expectedExam = new Exam(1L,"DWH", "Datawarehousing",new Date(), "Aula 103");
 		
-		System.out.println();
-		System.out.println("+++++ START INTEGRATION TESTS +++++");
-		System.out.println();
+		LOGGER.info("");
+		LOGGER.info("+++++ START INTEGRATION TESTS +++++");
+		LOGGER.info("");
 
 	}
 	
@@ -128,7 +132,6 @@ public class HomeControllerIT {
 		.andExpect(model().attribute("message", STUDENT_REGISTRATION_SUCCESS_MSG
 		.replace("#x#", expectedStudent.getLastName())
 		.replace("#y#", expectedExam.getExamName())));
-
 	}
 	
 	
@@ -187,9 +190,9 @@ public class HomeControllerIT {
 	@AfterClass
 	@DatabaseTearDown(value = "/examData.xml")
 	public static void afterTest(){
-		System.out.println();
-		System.out.println("----- END INTEGRATION TESTS -----");
-		System.out.println();
+		LOGGER.info("");
+		LOGGER.info("----- END INTEGRATION TESTS -----");
+		LOGGER.info("");
 
 		
 	}

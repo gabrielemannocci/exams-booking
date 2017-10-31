@@ -48,12 +48,6 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- Jdbc postgres -->
-		<dependency>
-			<groupId>org.postgresql</groupId>
-			<artifactId>postgresql</artifactId>
-			<version>9.4-1200-jdbc41</version>
-		</dependency>
 
 		<!-- H2 Database -->
 		<dependency>
@@ -256,7 +250,8 @@
 					</execution>
 				</executions>
 			</plugin>
-
+			
+			<!-- COVERALLS PLUGIN -->
 			<plugin>
 				<groupId>org.eluder.coveralls</groupId>
 				<artifactId>coveralls-maven-plugin</artifactId>

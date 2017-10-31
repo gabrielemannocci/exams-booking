@@ -19,7 +19,6 @@ import edu.unifi.tap.exambooking.model.Student;
 @RunWith(SpringRunner.class)
 @DataJpaTest
 @SpringBootTest
-@AutoConfigureTestDatabase(replace=Replace.NONE)
 public class StudentRepositoryTest {
 
 	@Autowired

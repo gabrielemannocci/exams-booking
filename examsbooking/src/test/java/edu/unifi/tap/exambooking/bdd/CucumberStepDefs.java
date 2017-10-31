@@ -2,6 +2,7 @@ package edu.unifi.tap.exambooking.bdd;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.apache.log4j.Logger;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
@@ -19,6 +20,7 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import edu.unifi.tap.exambooking.ExamsbookingApplication;
+import edu.unifi.tap.exambooking.controller.HomeControllerIT;
 import edu.unifi.tap.exambooking.model.Exam;
 import edu.unifi.tap.exambooking.services.interfaces.ExamService;
 
@@ -47,12 +49,14 @@ public class CucumberStepDefs {
 	private static final String INVALID_STUDENT_ERROR_MSG = "Something wrong happened storing Student data: missing field value";
 	private WebDriver driver;
 
-
+	static final Logger LOGGER = Logger.getLogger(CucumberStepDefs.class);
+	
 	@BeforeClass
 	public static void beforeTest(){
-		System.out.println();
-		System.out.println("+++++ START FUNCTIONAL TESTS +++++");
-		System.out.println();
+		LOGGER.info("");
+		LOGGER.info("+++++ START FUNCTIONAL TESTS +++++");
+		LOGGER.info("");
+
 	}
 
 	@Given("Registration page")
@@ -78,10 +82,10 @@ public class CucumberStepDefs {
 		errorPage = registerStudentPage.createMessage(ErrorPage.class, firstName, lastName, "", email);
 	}
 
-	@Then("^User (.+) is correctly registered for exam$")
-	public void getSuccessPage(String lastName) throws Throwable {
+	@Then("^User (.+) is correctly registered for exam with id (\\d+)$")
+	public void getSuccessPage(String lastName,int examId) throws Throwable {
 
-		Exam found = examService.findById(1L);
+		Exam found = examService.findById(Long.valueOf(examId));
 		expectedMessage = STUDENT_REGISTRATION_SUCCESS_MSG
 				.replace("#x#", lastName)
 				.replace("#y#", found.getExamName());
@@ -105,9 +109,9 @@ public class CucumberStepDefs {
 	
 	@AfterClass
 	public static void afterTest(){
-		System.out.println();
-		System.out.println("----- END FUNCTIONAL TESTS -----");
-		System.out.println();
+		LOGGER.info("");
+		LOGGER.info("----- END FUNCTIONAL TESTS -----");
+		LOGGER.info("");
 
 		
 	}
