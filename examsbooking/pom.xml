@@ -26,6 +26,7 @@
 		<jacoco.exec>${project.build.directory}/jacoco-ut.exec</jacoco.exec>
 		<sonar.language>java</sonar.language>
 		<sonar.jacoco.reportPath>${jacoco.data.file}</sonar.jacoco.reportPath>
+		<docker.image.name>jako7979/exambooking</docker.image.name>
 	</properties>
 
 	<dependencies>
@@ -217,40 +218,14 @@
 			
 			<!-- DOCKER PLUGIN -->
 			<plugin>
-				<groupId>io.fabric8</groupId>
-				<artifactId>docker-maven-plugin</artifactId>
-				<version>0.17.2</version>
-				<configuration>
-					<images>
-						<image>
-							<name>jako7979/exambooking</name>
-							<run>
-								<ports>
-									<port>8080:8080</port>
-								</ports>
-							</run>
-						</image>
-					</images>
-					<showLogs>true</showLogs>
-				</configuration>
-				<executions>
-					<execution>
-						<id>docker:start</id>
-						<phase>pre-integration-test</phase>
-						<goals>
-							<goal>start</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>docker:stop</id>
-						<phase>post-integration-test</phase>
-						<goals>
-							<goal>stop</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			
+                <groupId>com.spotify</groupId>
+                <artifactId>dockerfile-maven-plugin</artifactId>
+                <version>1.3.4</version>
+                <configuration>
+                    <repository>${docker.image.name}</repository>
+                </configuration>
+            </plugin>
+            
 			<!-- COVERALLS PLUGIN -->
 			<plugin>
 				<groupId>org.eluder.coveralls</groupId>
