@@ -116,19 +116,12 @@ public class Student {
 		if (this.getClass() != obj.getClass())
 		    return false;
 		final Student student = (Student) obj;
-		if (!Objects.equals(this.studentId, student.studentId))
-		    return false;
-		if (!Objects.equals(this.firstName, student.firstName))
-		    return false;
-		if (!Objects.equals(this.lastName, student.lastName))
-		    return false;
-		if (!Objects.equals(this.email, student.email))
-		    return false;
-		if (!Objects.equals(this.idNumber, student.idNumber))
-		    return false;
-		if (!Objects.equals(this.exam, student.exam))
-		    return false;
-		return true;
+		return Objects.equals(this.studentId, student.studentId) &&
+			   Objects.equals(this.firstName, student.firstName) &&
+			   Objects.equals(this.lastName, student.lastName) &&
+			   Objects.equals(this.email, student.email) &&
+			   Objects.equals(this.idNumber, student.idNumber) &&
+			   Objects.equals(this.exam, student.exam);
 	    }
 
 

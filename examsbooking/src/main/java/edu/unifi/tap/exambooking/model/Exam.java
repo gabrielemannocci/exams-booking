@@ -114,17 +114,11 @@ public class Exam {
 		if (this.getClass() != obj.getClass())
 		    return false;
 		final Exam exam = (Exam) obj;
-		if (!Objects.equals(this.examId, exam.examId))
-		    return false;
-		if (!Objects.equals(this.examCode, exam.examCode))
-		    return false;
-		if (!Objects.equals(this.examDate, exam.examDate))
-		    return false;
-		if (!Objects.equals(this.examName, exam.examName))
-		    return false;
-		if (!Objects.equals(this.examClassRoom, exam.examClassRoom))
-		    return false;
-		return true;
+		return  (Objects.equals(this.examId, exam.examId) && 
+				Objects.equals(this.examCode, exam.examCode) &&
+				Objects.equals(this.examDate, exam.examDate) &&
+				Objects.equals(this.examName, exam.examName) &&
+				Objects.equals(this.examClassRoom, exam.examClassRoom));
 	    }
 
 
