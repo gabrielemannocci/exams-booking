@@ -38,7 +38,7 @@ public class RegisterStudentPage extends AbstractPage{
     }
 
     public static RegisterStudentPage to(WebDriver driver) {
-        get(driver, "messages/form");
+        get(driver);
         return PageFactory.initElements(driver, RegisterStudentPage.class);
     }
     

@@ -23,7 +23,7 @@ public class AbstractPage {
 		return errors.getText();
 	}
 
-	static void get(WebDriver driver, String relativeUrl) {
+	static void get(WebDriver driver) {
 		driver.get(String.format("http://localhost:8080"));
 	}
 }
