@@ -20,7 +20,6 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import edu.unifi.tap.exambooking.ExamsbookingApplication;
-import edu.unifi.tap.exambooking.controller.HomeControllerIT;
 import edu.unifi.tap.exambooking.model.Exam;
 import edu.unifi.tap.exambooking.services.interfaces.ExamService;
 

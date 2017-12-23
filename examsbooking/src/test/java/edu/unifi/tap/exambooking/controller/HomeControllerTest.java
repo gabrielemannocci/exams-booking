@@ -7,12 +7,9 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Properties;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,20 +17,12 @@ import org.mockito.InOrder;
 import org.mockito.Mockito;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.ModelAndViewAssert;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import static org.mockito.Matchers.isA;
-import static org.mockito.Mockito.when;
-//import webapp.example.demo.model.Exam;
-//import webapp.example.demo.services.interfaces.StudentService;
-import org.springframework.web.servlet.HandlerExceptionResolver;
-import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
-
 import edu.unifi.tap.exambooking.exception.ExamsNotFoundException;
 import edu.unifi.tap.exambooking.exception.InvalidStudentException;
 import edu.unifi.tap.exambooking.model.Exam;
@@ -74,13 +63,10 @@ public class HomeControllerTest {
 	private Student expectedStudent;
 	private Exam expectedExam;
 	
-	private static final String EXAMSBOOKING_HOME_VIEW = "index";
 	private static final String EXAMSBOOKING_RESULT_VIEW = "results";
 	private static final String EXAMSBOOKING_ERROR_VIEW = "error";
 	
 	private static final String EXAM_PARAM_INDEX = "1"; 
-	private static final String MODELVIEW_RESULT = "message";
-	private static final String MODELVIEW_ERROR = "errormessage";
 	
 	private static final String STUDENT_REGISTRATION_SUCCESS_MSG = "Student #x# correctly registered for exam #y# !";
 	private static final String STUDENT_ALREADY_REGISTERED_FOR_EXAM_ERROR_MSG = "Student #x# already registered for exam #y# !";
@@ -89,7 +75,6 @@ public class HomeControllerTest {
 	private static final String INVALID_STUDENT_ERROR_MSG = "Something wrong happened storing Student data: missing field value";
 
 	
-	//Se definito com spy chiama il metodo reale
 	@Before
 	public void setupController(){
 		mockMvc = MockMvcBuilders.standaloneSetup(new HomeController(examServiceMock,studentServiceMock)).build();//.setHandlerExceptionResolvers(exceptionResolver())
