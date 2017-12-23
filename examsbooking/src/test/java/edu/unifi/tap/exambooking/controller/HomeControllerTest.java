@@ -83,24 +83,6 @@ public class HomeControllerTest {
 		expectedExam = new Exam(1L,"DWH", "Datawarehousing",new Date(), "Aula 103");
 	}
 
-//    private HandlerExceptionResolver exceptionResolver() {
-//        SimpleMappingExceptionResolver exceptionResolver = new SimpleMappingExceptionResolver();
-//
-//        Properties exceptionMappings = new Properties();
-//
-//        exceptionMappings.put("edu.unifi.tap.exambooking.exception.ExamsNotFoundException", "error");
-//        exceptionMappings.put("edu.unifi.tap.exambooking.exception.InvalidStudentException", "error");
-//        exceptionMappings.put("java.lang.Exception", "error");
-//        exceptionMappings.put("java.lang.RuntimeException", "error");
-//
-//        exceptionResolver.setExceptionMappings(exceptionMappings);
-//
-//        Properties statusCodes = new Properties();
-//        statusCodes.put("error", "500");
-//        exceptionResolver.setStatusCodes(statusCodes);
-//
-//        return exceptionResolver;
-//    }
     
 	/**
 	 * Exams list 
