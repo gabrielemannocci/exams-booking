@@ -3,8 +3,6 @@ package edu.unifi.tap.exambooking.bdd;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.apache.log4j.Logger;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -15,6 +13,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.htmlunit.webdriver.MockMvcHtmlUnitDriverBuilder;
 import org.springframework.web.context.WebApplicationContext;
+
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -50,13 +49,7 @@ public class CucumberStepDefs {
 
 	static final Logger LOGGER = Logger.getLogger(CucumberStepDefs.class);
 	
-	@BeforeClass
-	public static void beforeTest(){
-		LOGGER.info("");
-		LOGGER.info("+++++ START FUNCTIONAL TESTS +++++");
-		LOGGER.info("");
 
-	}
 
 	@Given("Registration page")
 	public void homePage() throws Throwable {
@@ -106,12 +99,5 @@ public class CucumberStepDefs {
 		}
 	}
 	
-	@AfterClass
-	public static void afterTest(){
-		LOGGER.info("");
-		LOGGER.info("----- END FUNCTIONAL TESTS -----");
-		LOGGER.info("");
 
-		
-	}
 }

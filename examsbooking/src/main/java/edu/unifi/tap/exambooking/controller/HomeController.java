@@ -6,7 +6,9 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -45,7 +47,7 @@ public class HomeController {
 	}
 
 
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@GetMapping
 	public ModelAndView returnHome(@ModelAttribute("student")  Student student,@ModelAttribute("exam")  Exam exam){
 		LOGGER.debug("+++ ENTER returnIndex +++");
 		ModelAndView modelAndView = new ModelAndView();
@@ -82,7 +84,8 @@ public class HomeController {
 		return mav;
 	}
 
-	@RequestMapping(value = "/registration", method = RequestMethod.POST)
+	@PostMapping
+//	@RequestMapping(value = "/registration", method = RequestMethod.POST)
 	public ModelAndView registerUser(@Valid @ModelAttribute("student")  Student student,  @RequestParam("examParam") Long examId) throws InvalidStudentException, ExamsNotFoundException{
 		LOGGER.debug("+++ registerUser +++"); 
 		Exam examFound = examService.findById(examId);
