@@ -34,7 +34,6 @@ import edu.unifi.tap.exambooking.services.interfaces.StudentService;
  * @author gabriele.mannocci
  *
  */
-//@ActiveProfiles("test")
 @RunWith(SpringRunner.class)
 @WebMvcTest(HomeController.class)
 public class HomeControllerTest {
@@ -76,7 +75,7 @@ public class HomeControllerTest {
 
 	@Before
 	public void setupController(){
-		mockMvc = MockMvcBuilders.standaloneSetup(new HomeController(examServiceMock,studentServiceMock)).build();//.setHandlerExceptionResolvers(exceptionResolver())
+		mockMvc = MockMvcBuilders.standaloneSetup(new HomeController(examServiceMock,studentServiceMock)).build();
 		actualStudent = new Student(null,"firstName","lastName","aValidEmailTest@email.com","0000000");
 		expectedStudent = new Student(1L,"firstName","lastName","aValidEmailTest@email.com","0000000");
 		expectedExam = new Exam(1L,"DWH", "Datawarehousing",new Date(), "Aula 103");
@@ -111,8 +110,6 @@ public class HomeControllerTest {
 
 
 
-	//ORDINE INVOCAZIONI
-	//ARGUMENT CAPTUR
 	/**
 	 * Check for right indexview 
 	 * @throws Exception

@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import edu.unifi.tap.exambooking.exception.ExamsNotFoundException;
@@ -48,18 +46,11 @@ public class HomeController {
 
 
 	@GetMapping
-	public ModelAndView returnHome(@ModelAttribute("student")  Student student,@ModelAttribute("exam")  Exam exam){
+	public ModelAndView returnHome(@ModelAttribute("student")  Student student,@ModelAttribute("exam")  Exam exam) throws ExamsNotFoundException{
 		LOGGER.debug("+++ ENTER returnIndex +++");
 		ModelAndView modelAndView = new ModelAndView();
 		List<Exam> exams = null;
-		try {
-			exams = examService.findAll(); 
-		} catch (ExamsNotFoundException e) {
-			LOGGER.debug(e.getMessage());
-			modelAndView.addObject(MODELVIEW_ERROR, e.getMessage());
-			modelAndView.setViewName(EXAMSBOOKING_ERROR_VIEW);
-			return modelAndView;
-		}
+		exams = examService.findAll(); 
 		modelAndView.setViewName(EXAMSBOOKING_HOME_VIEW);
 		modelAndView.addObject("exams", exams);
 		LOGGER.debug("--- EXIT returnIndex ---");
@@ -85,7 +76,6 @@ public class HomeController {
 	}
 
 	@PostMapping
-//	@RequestMapping(value = "/registration", method = RequestMethod.POST)
 	public ModelAndView registerUser(@Valid @ModelAttribute("student")  Student student,  @RequestParam("examParam") Long examId) throws InvalidStudentException, ExamsNotFoundException{
 		LOGGER.debug("+++ registerUser +++"); 
 		Exam examFound = examService.findById(examId);
