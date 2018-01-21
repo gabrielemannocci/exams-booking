@@ -20,6 +20,7 @@
 	</parent>
 
 	<properties>
+
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
@@ -163,23 +164,40 @@
 			</plugin>
 
 			<!-- FAILSAFE PLUGIN -->
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-failsafe-plugin</artifactId>
 				<executions>
 					<execution>
+						<configuration>
+							<skipTests>${skip.integration-tests}</skipTests>
+							<includes>
+								<include>**/*ApplicationTests.java</include>
+								<include>**/*IT.java</include>
+							</includes>
+						</configuration>
+						<goals>
+							<goal>integration-test</goal>
+							<goal>verify</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>bdd-tests</id>
+						<configuration>
+							<skipTests>${skip.integration-tests}</skipTests>
+							<includes>
+								<include>**/*CucumberTest.java</include>
+							</includes>
+						</configuration>
 						<goals>
 							<goal>integration-test</goal>
 							<goal>verify</goal>
 						</goals>
 					</execution>
 				</executions>
-				<configuration>
-          			<includes>
-            			<include>**/CucumberTest.java</include>
-          			</includes>
-        		</configuration>
 			</plugin>
+
 
 			<!-- DOCKER PLUGIN -->
 			<plugin>
@@ -209,11 +227,12 @@
 						<artifactId>jacoco-maven-plugin</artifactId>
 						<version>0.7.7.201606060606</version>
 						<configuration>
-              				<excludes>
-                				<!--  <exclude>**/*Application.*</exclude> -->
-                				<exclude>**/model/*</exclude>
-              				</excludes>
-            			</configuration>
+							<excludes>
+								<exclude>**/*Application.*</exclude>
+								<exclude>**/*Config.*</exclude>
+								<exclude>**/model/*</exclude>
+							</excludes>
+						</configuration>
 						<executions>
 							<!-- Prepares the property pointing to the JaCoCo runtime agent which 
 								is passed as VM argument when Maven the Surefire plugin is executed. -->
