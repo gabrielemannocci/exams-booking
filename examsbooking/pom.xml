@@ -28,6 +28,22 @@
 		<jacoco.exec>${project.build.directory}/jacoco-ut.exec</jacoco.exec>
 		<sonar.language>java</sonar.language>
 		<sonar.jacoco.reportPath>${jacoco.data.file}</sonar.jacoco.reportPath>
+		<!-- Exclude non covered files -->
+		<sonar.coverage.exclusions>
+			**/*Application.*,
+			**/model/*
+		</sonar.coverage.exclusions>
+		<!-- Also collects integration tests -->
+		<sonar.junit.reportPaths>
+			${project.build.directory}/surefire-reports,
+			${project.build.directory}/failsafe-reports
+		</sonar.junit.reportPaths>
+		<!-- Also scans HTML files -->
+		<sonar.sources>
+			pom.xml,
+			${project.build.sourceDirectory},
+			${basedir}/src/main/resources
+		</sonar.sources>
 		<docker.image.name>jako7979/exambooking</docker.image.name>
 		<jacoco.data.file>${project.build.directory}/coveragereports/jacoco.exec</jacoco.data.file>
 		<jacoco.report.path>${project.reporting.outputDirectory}/jacocout</jacoco.report.path>
