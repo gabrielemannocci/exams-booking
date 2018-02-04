@@ -10,6 +10,10 @@ addons:
     organization: "gabrielemannocci-github"
     token:
       secure: cd286557793f0fe96562daf341df0fb73214d5ad
+sudo: false
+cache:
+ directories:
+ - $HOME/.m2
 
 
 install: true
