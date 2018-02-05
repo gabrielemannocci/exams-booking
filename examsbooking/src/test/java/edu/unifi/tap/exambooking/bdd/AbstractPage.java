@@ -8,6 +8,8 @@ public class AbstractPage {
 
 	protected WebDriver driver;
 
+	public static int port = 0;
+	
 	@FindBy(css = "label.error, .alert-error")
 	private WebElement errors;
 
@@ -26,4 +28,10 @@ public class AbstractPage {
 	static void get(WebDriver driver) {
 		driver.get(String.format("http://localhost:8080"));
 	}
+	
+	static void get(WebDriver driver, String relativeUrl) {
+		driver.get("http://localhost"
+		+ (port > 0 ? ":" + port : "")
+		+ "/" + relativeUrl);
+		}
 }
